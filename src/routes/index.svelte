@@ -20,6 +20,7 @@
 	import { onMount } from "svelte";
 
 	import Logo from "../components/Logo.svelte";
+	import BodProgramu from "../components/BodProgramu.svelte";
 
 	onMount(() => {
 		setTimeout(getAllData, 1);
@@ -133,61 +134,7 @@
 		<h3>Body programu</h3>
 		{#if strany[chosenStrana].body_programu}
 			{#each strany[chosenStrana]?.body_programu as bp}
-				<div class="flex-bp">
-					<div
-						class="kategorie"
-						style="background-color: {bp.kategorie_barva};"
-					/>
-					<div
-						class="bod-programu"
-						on:click|self={() => {
-							bp.otevrit = !bp.otevrit;
-						}}
-					>
-						<span
-							class="bp-nadpis"
-							on:click|self={() => {
-								bp.otevrit = !bp.otevrit;
-							}}>{bp.nadpis}</span
-						>
-						<div
-							class="hidden-bp"
-							style="height: {bp.otevrit ? '500px' : '0px'};"
-							on:click={() => {
-								console.log("Nothing");
-							}}
-						>
-							<p
-								class="kategorie-jmeno"
-								style="color: {bp.kategorie_barva};"
-							>
-								{bp.kategorie}
-							</p>
-							<p class="argumentace">{@html bp.argumentace}</p>
-							{#if bp.citace}
-								<p class="citace">{@html bp.citace}</p>
-							{/if}
-						</div>
-						<div
-							id="sipka-dolu"
-							on:click={() => {
-								bp.otevrit = !bp.otevrit;
-							}}
-						>
-							<img src="sipka-dolu.png" alt="Šipka dolů" />
-						</div>
-					</div>
-					<div
-						class="splneno"
-						style="background-color: {bp.splneno == 1
-							? 'rgb(76, 175, 80)'
-							: bp.splneno == 2
-							? 'rgb(223, 71, 89)'
-							: bp.splneno == 3
-							? 'rgb(255, 193, 7)'
-							: 'rgb(130, 136, 144)'};"
-					/>
-				</div>
+				<BodProgramu {bp} barva={strany[chosenStrana].barva} />
 			{/each}
 		{/if}
 	</div>
@@ -241,66 +188,13 @@
 
 	#body-programu {
 		width: 100%;
-		height: 650px;
 		border-radius: 5px;
 		padding: 20px 20px;
+		margin-bottom: 30px;
 		box-sizing: border-box;
 		transition: 0.15s;
-		overflow-y: auto;
+		overflow-y: hidden;
 		overflow-x: hidden;
-	}
-
-	.flex-bp {
-		display: flex;
-		justify-content: space-between;
-		margin-bottom: 20px;
-	}
-
-	.bod-programu {
-		width: 100%;
-		min-height: 40px;
-		background-color: #ffffff;
-		color: #000000;
-		box-sizing: border-box;
-
-		padding: 0px 12px;
-
-		font-size: 22px;
-		font-weight: 500;
-
-		position: relative;
-
-		transition: 0.4s;
-		cursor: pointer;
-	}
-	.bp-nadpis {
-		line-height: 40px;
-	}
-	.hidden-bp {
-		cursor: auto;
-		overflow: hidden;
-		transition: 0.4s;
-	}
-	.kategorie-jmeno {
-		margin-top: 0px;
-		font-size: 15px;
-	}
-	.argumentace {
-		margin-top: 15px;
-	}
-
-	.kategorie {
-		min-width: 10px;
-		height: 40px;
-	}
-	.splneno {
-		min-width: 60px;
-		height: 40px;
-	}
-	#sipka-dolu {
-		position: absolute;
-		right: 10px;
-		top: 8px;
 	}
 
 	.flex {
