@@ -1,13 +1,61 @@
 <script>
+	import { afterUpdate, beforeUpdate, onMount } from "svelte";
+
 	export let bp;
 	export let barva;
-	console.log(bp);
+
+	var box;
+	var button;
+	var expanded;
+	var height;
+
+	var barvaScoped = barva;
+
+	function calculateBoxHeight() {
+		box = document.getElementById("box" + bp.id);
+		button = document.getElementById("test" + bp.id);
+		expanded = false;
+
+		console.log(box);
+		box.style.height = "auto";
+		height = box.offsetHeight;
+		console.log(box.offsetHeight);
+		box.style.height = "0px";
+
+		button.addEventListener("click", letsGo);
+	}
+
+	function letsGo() {
+		if (expanded) {
+			box.style.height = 0;
+			expanded = false;
+		} else {
+			box.style.height = height + "px";
+			expanded = true;
+		}
+	}
+
+	afterUpdate(() => {
+		setTimeout(() => {
+			if (barvaScoped != barva) {
+				button.removeEventListener("click", letsGo);
+
+				calculateBoxHeight();
+				barvaScoped = barva;
+			}
+		}, 10);
+	});
+
+	onMount(() => {
+		calculateBoxHeight();
+	});
 </script>
 
 <div class="flex-bp">
 	<div class="kategorie" style="background-color: {bp.kategorie_barva};" />
 	<div
 		class="bod-programu"
+		id="test{bp.id}"
 		on:click|self={() => {
 			bp.otevrit = !bp.otevrit;
 		}}
@@ -20,7 +68,7 @@
 		>
 		<div
 			class="hidden-bp"
-			style="height: {bp.otevrit ? '400px' : '0'};"
+			id="box{bp.id}"
 			on:click={() => {
 				console.log("Nothing");
 			}}
@@ -167,10 +215,12 @@
 	}
 	.odkaz {
 		float: right;
-		margin-top: 5px;
+		margin-top: 10px;
 		font-size: 17px;
 		font-weight: 700;
 		text-decoration: underline;
+
+		margin-bottom: 10px;
 	}
 	.odkaz img {
 		vertical-align: middle;
