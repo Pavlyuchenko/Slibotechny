@@ -25,7 +25,17 @@
 		button.addEventListener("click", letsGo);
 	}
 
-	function letsGo() {
+	function letsGo(e) {
+		var nadpis = document.getElementById("nadpis" + bp.id);
+		var sipka = document.getElementById("sipka" + bp.id);
+		var sipkai = document.getElementById("sipkai" + bp.id);
+		if (
+			button != e.target &&
+			nadpis != e.target &&
+			sipka != e.target &&
+			sipkai != e.target
+		)
+			return;
 		if (expanded) {
 			box.style.height = 0;
 			expanded = false;
@@ -62,6 +72,7 @@
 	>
 		<span
 			class="bp-nadpis"
+			id={"nadpis" + bp.id}
 			on:click|self={() => {
 				bp.otevrit = !bp.otevrit;
 			}}>{bp.nadpis}</span
@@ -85,7 +96,14 @@
 			{#if bp.navrhy.length > 0}
 				<h4 style="color: {barva};">Návrhy k provedení bodu</h4>
 				{#each bp.navrhy as navrh}
-					{navrh.text}
+					<div class="navrh-div">
+						<img
+							src={"small_" + navrh.splneno + ".png"}
+							alt="Splněno"
+							class="splneno-img"
+						/>
+						{navrh.text}
+					</div>
 				{/each}
 			{/if}
 
@@ -106,7 +124,8 @@
 			{/if}
 		</div>
 		<div
-			id="sipka-dolu"
+			id="sipka{bp.id}"
+			class="sipka-dolu"
 			on:click={() => {
 				bp.otevrit = !bp.otevrit;
 			}}
@@ -115,6 +134,7 @@
 				src="sipka-dolu.png"
 				alt="Šipka dolů"
 				class="sipka-dolu {bp.otevrit && 'rotate'}"
+				id="sipkai{bp.id}"
 			/>
 		</div>
 	</div>
@@ -173,6 +193,11 @@
 		cursor: auto;
 		overflow: hidden;
 		transition: 0.4s;
+
+		font-weight: 400;
+	}
+	.hidden-bp h4 {
+		margin-bottom: 8px;
 	}
 	.kategorie-jmeno {
 		margin-top: 0px;
@@ -197,9 +222,15 @@
 		left: 50%;
 		transform: translateY(-50%) translateX(-50%);
 	}
-	#sipka-dolu {
+	.navrh-div {
+		margin-bottom: 10px;
+	}
+	.splneno-img {
+		margin-right: 5px;
+	}
+	.sipka-dolu {
 		position: absolute;
-		right: 10px;
+		right: 5px;
 		top: 8px;
 	}
 	.sipka-dolu {
