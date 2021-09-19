@@ -20,8 +20,9 @@
 		border-radius: 5px;
 		padding: 0px 10px;
 		display: inline-block;
-		margin-left: 50%;
-		transform: translateX(-50%);
+
+		display: table;
+		margin: 0 auto;
 	}
 	h3 {
 		font-family: "Spectral";
@@ -29,5 +30,42 @@
 		font-size: 28px;
 		margin: 0;
 		padding: 0;
+	}
+
+	@media (max-width: 1300px) {
+		h3 {
+			font-size: 24px;
+		}
+	}
+	@media (max-width: 1070px) {
+		h3 {
+			font-size: 22px;
+		}
+	}
+	@media (max-width: 700px) {
+		h3 {
+			font-size: 20px;
+		}
+	}
+	@media (max-width: 600px) {
+		h1 {
+			font-size: 70px;
+		}
+	}
+	@media (max-width: 500px) {
+		h1 {
+			font-size: 60px;
+		}
+		h3 {
+			font-size: 17px;
+		}
+	}
+	@media (max-width: 400px) {
+		h1 {
+			font-size: 45px;
+		}
+		h3 {
+			font-size: 12px;
+		}
 	}
 </style>

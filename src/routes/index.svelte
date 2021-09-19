@@ -26,6 +26,50 @@
 		setTimeout(getAllData, 1);
 	});
 
+	function draw() {
+		function createBackground(rectWidth, width, height) {
+			ctx.fillStyle = "#202020";
+			for (let i = 0; i < width; i += 13) {
+				for (let j = 0; j < height; j += 13) {
+					ctx.fillRect(i, j, rectWidth, rectWidth);
+				}
+			}
+		}
+
+		function setCanvasDimensions(ctx) {
+			var body = document.body,
+				html = document.documentElement;
+			var height = Math.max(
+				body.scrollHeight,
+				body.offsetHeight,
+				html.clientHeight,
+				html.scrollHeight,
+				html.offsetHeight
+			);
+			var width = window.innerWidth;
+			ctx.canvas.width = width;
+			ctx.canvas.height = height;
+
+			return [ctx, width, height];
+		}
+
+		var canvas = document.getElementById("canvas");
+		if (canvas.getContext) {
+			var ctx = canvas.getContext("2d");
+
+			var canvasWidth;
+			var canvasHeight;
+			var rectWidth = 2;
+			[ctx, canvasWidth, canvasHeight] = setCanvasDimensions(ctx);
+			createBackground(rectWidth, canvasWidth, canvasHeight);
+		}
+
+		window.addEventListener("resize", () => {
+			[ctx, canvasWidth, canvasHeight] = setCanvasDimensions(ctx);
+			createBackground(rectWidth, canvasWidth, canvasHeight);
+		});
+	}
+
 	async function getAllData() {
 		const res = await fetch(
 			"https://slibotechnyapi.pythonanywhere.com/get_strany_and_body_programu",
@@ -48,52 +92,6 @@
 
 	export let strany = [];
 	let chosenStrana = 1;
-
-	/* async function getData() {
-		cookieStorage = localStorage.getItem("user_cookie");
-		prezdivkaStorage = localStorage.getItem("prezdivka");
-		const res = await fetch(
-			"https://velkadomu.pythonanywhere.com/clanek/" + id,
-			{
-				method: "POST",
-				headers: {
-					"content-type": "application/json",
-				},
-				body: JSON.stringify({
-					prezdivka: prezdivkaStorage,
-					cookie: cookieStorage,
-				}),
-			}
-		);
-		const json = await res.json();
-		clanek = json.clanek;
-		komentare = json.komentare;
-		dalsiClanky = json.dalsiClanky;
-		url =
-			"https://ik.imagekit.io/velkadomu/tr:h-500,w-900" + clanek.obrazek;
-		jsonld = {
-			"@context": "https://schema.org",
-			"@type": "NewsArticle",
-			headline: clanek.titulek,
-			image: [
-				"https://ik.imagekit.io/velkadomu/tr:h-500,w-900" +
-					clanek.obrazek,
-			],
-			datePublished: clanek.datePublished,
-		};
-		jsonld = JSON.stringify(jsonld);
-		jsonldScript = `<script type="application/ld+json">${
-			jsonld + "<"
-		}/script>`;
-		nazevAnkety = clanek.nazevAnkety;
-		votes = clanek.votes;
-		hodnotyAnkety = clanek.hodnotyAnkety;
-		userChosen = json.user_chosen;
-		if (userChosen) {
-			showAnketaResults = true;
-		}
-		statsIncrease();
-	} */
 </script>
 
 <Logo />
@@ -114,12 +112,29 @@
 			{/if}
 		{/each}
 	</div>
+	<div id="mobile-flex">
+		<select
+			name=""
+			id=""
+			bind:value={chosenStrana}
+			style="background-color: {strany[chosenStrana].barva};
+			 	   color: {strany[chosenStrana].sekundarni_barva};"
+		>
+			{#each strany as strana, index}
+				<option
+					value={index}
+					style="background-color: {strana.barva};
+							color: {strana.sekundarni_barva};">{strana.nazev}</option
+				>
+			{/each}
+		</select>
+	</div>
 
 	<div
 		id="body-programu"
-		style="background-color: {strany[chosenStrana].barva}; color: {strany[
-			chosenStrana
-		].sekundarni_barva};"
+		style="background-color: {strany[chosenStrana].barva}; 
+		color: {strany[chosenStrana].sekundarni_barva};
+		"
 	>
 		<div class="flex">
 			<div>
@@ -232,9 +247,76 @@
 		font-weight: 500;
 	}
 
+	#mobile-flex {
+		display: none;
+	}
+
+	select {
+		margin: 20px 0;
+		width: 100%;
+		padding: 5px 35px 5px 5px;
+
+		font-size: 24px;
+		font-weight: 700;
+		font-family: "Rokkitt";
+
+		height: 50px;
+		border-radius: 5px;
+		border: 0;
+	}
+
+	/* CAUTION: Internet Explorer hackery ahead */
+
+	select::-ms-expand {
+		display: none; /* Remove default arrow in Internet Explorer 10 and 11 */
+	}
+
+	/* Target Internet Explorer 9 to undo the custom arrow */
+	@media screen and (min-width: 0\0) {
+		select {
+			background: none\9;
+			padding: 5px\9;
+		}
+	}
+
 	@media (max-width: 1500px) {
 		section {
 			padding: 0 30px;
+		}
+	}
+	@media (max-width: 1025px) {
+		.strana-clickable {
+			font-size: 22px;
+			height: 40px;
+			line-height: 40px;
+		}
+		.active {
+			font-size: 25px;
+			height: 50px;
+			line-height: 55px;
+		}
+	}
+	@media (max-width: 800px) {
+		section {
+			padding: 0 10px;
+		}
+		.strana-clickable {
+			font-size: 18px;
+		}
+		.active {
+			font-size: 21px;
+		}
+		#body-programu {
+			padding: 20px 10px;
+		}
+	}
+	@media (max-width: 700px) {
+		#flex {
+			display: none;
+		}
+
+		#mobile-flex {
+			display: block;
 		}
 	}
 </style>

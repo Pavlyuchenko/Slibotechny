@@ -16,10 +16,8 @@
 		button = document.getElementById("test" + bp.id);
 		expanded = false;
 
-		console.log(box);
 		box.style.height = "auto";
 		height = box.offsetHeight;
-		console.log(box.offsetHeight);
 		box.style.height = "0px";
 
 		button.addEventListener("click", letsGo);
@@ -257,5 +255,47 @@
 		vertical-align: middle;
 		text-decoration: none;
 		margin-left: 5px;
+	}
+
+	@media (max-width: 800px) {
+		.bp-nadpis {
+			font-size: 20px;
+		}
+		.bod-programu {
+			padding: 0 5px;
+		}
+		.splneno {
+			min-width: 40px;
+		}
+		.splneno img {
+			max-width: 20px;
+		}
+
+		h4 {
+			font-size: 18px;
+		}
+		.hidden-bp p {
+			font-size: 17px;
+		}
+		.navrh-div {
+			font-size: 17px;
+		}
+		i {
+			font-size: 17px;
+		}
+	}
+	@media (max-width: 700px) {
+		.bp-nadpis {
+			font-size: 16px;
+			font-weight: 700;
+		}
+		.sipka-dolu {
+			display: none;
+		}
+	}
+	@media (max-width: 550px) {
+		.bp-nadpis {
+			font-size: 14px;
+		}
 	}
 </style>

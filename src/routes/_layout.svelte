@@ -3,7 +3,7 @@
 
 	export let segment;
 
-	import { onMount } from "svelte";
+	import { afterUpdate, onMount } from "svelte";
 
 	function draw() {
 		function createBackground(rectWidth, width, height) {
@@ -26,6 +26,7 @@
 				html.offsetHeight
 			);
 			var width = window.innerWidth;
+			height = window.innerHeight;
 			ctx.canvas.width = width;
 			ctx.canvas.height = height;
 
@@ -44,12 +45,14 @@
 		}
 
 		window.addEventListener("resize", () => {
+			console.log("Resized");
 			[ctx, canvasWidth, canvasHeight] = setCanvasDimensions(ctx);
 			createBackground(rectWidth, canvasWidth, canvasHeight);
 		});
 	}
 
 	onMount(draw);
+	afterUpdate(draw);
 </script>
 
 <!-- <Nav {segment}/> -->
@@ -63,5 +66,9 @@
 	canvas {
 		position: absolute;
 		z-index: -1;
+
+		width: 100%;
+		height: 100%;
+		position: fixed;
 	}
 </style>
