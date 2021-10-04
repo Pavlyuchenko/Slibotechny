@@ -1,7 +1,7 @@
 <script context="module">
 	export async function preload(page, session) {
 		const res = await this.fetch(
-			"https://slibotechnyapi.pythonanywhere.com/get_kategorie",
+			"https://slibotechnyapi.pythonanywhere.com/get_strany_and_first",
 			{
 				method: "GET",
 				headers: {
@@ -10,46 +10,69 @@
 			}
 		);
 		const json = await res.json();
-		let kategorie = json.kategorie;
-		const res2 = await this.fetch(
-			"https://slibotechnyapi.pythonanywhere.com/get_strany",
-			{
-				method: "GET",
-				headers: {
-					"content-type": "application/json",
-				},
-			}
-		);
-		const json2 = await res2.json();
-		let strany = json2.strany;
-		strany["kategorie"] = [];
+		let strany = json.strany;
 
-		for (let strana of strany) {
-			strana.kategorie = {}
-			for (let kat of kategorie) {
-				strana.kategorie[kat.id] = []
-			}
-		}
-
-		return { kategorie, strany };
+		return { strany };
 	}
 </script>
 
 <script>
+	import { onMount } from "svelte";
+
 	import Logo from "../components/Logo.svelte";
 	import BodProgramu from "../components/BodProgramu.svelte";
 
-	export let strany = [];
-	export let kategorie = [];
+	onMount(() => {
+		setTimeout(getAllData, 1);
+	});
 
-	let chosenStrana = 1;
-	let chosenKategorie = null;
+	function draw() {
+		function createBackground(rectWidth, width, height) {
+			ctx.fillStyle = "#202020";
+			for (let i = 0; i < width; i += 13) {
+				for (let j = 0; j < height; j += 13) {
+					ctx.fillRect(i, j, rectWidth, rectWidth);
+				}
+			}
+		}
 
-	async function loadData (strana_id, kategorie_id) {
-		if (strany[strana_id].kategorie[kategorie_id].length > 0) return
+		function setCanvasDimensions(ctx) {
+			var body = document.body,
+				html = document.documentElement;
+			var height = Math.max(
+				body.scrollHeight,
+				body.offsetHeight,
+				html.clientHeight,
+				html.scrollHeight,
+				html.offsetHeight
+			);
+			var width = window.innerWidth;
+			ctx.canvas.width = width;
+			ctx.canvas.height = height;
 
+			return [ctx, width, height];
+		}
+
+		var canvas = document.getElementById("canvas");
+		if (canvas.getContext) {
+			var ctx = canvas.getContext("2d");
+
+			var canvasWidth;
+			var canvasHeight;
+			var rectWidth = 2;
+			[ctx, canvasWidth, canvasHeight] = setCanvasDimensions(ctx);
+			createBackground(rectWidth, canvasWidth, canvasHeight);
+		}
+
+		window.addEventListener("resize", () => {
+			[ctx, canvasWidth, canvasHeight] = setCanvasDimensions(ctx);
+			createBackground(rectWidth, canvasWidth, canvasHeight);
+		});
+	}
+
+	async function getAllData() {
 		const res = await fetch(
-			"https://slibotechnyapi.pythonanywhere.com/get_some_bps/" + strana_id + "/" + kategorie_id,
+			"https://slibotechnyapi.pythonanywhere.com/get_strany_and_body_programu",
 			{
 				method: "GET",
 				headers: {
@@ -58,14 +81,17 @@
 			}
 		);
 		const json = await res.json();
-		if (json.bps.length == 0) {
-			strany[strana_id].kategorie[kategorie_id] = false;
-			console.log(strany[strany[chosenStrana].id].kategorie[kategorie_id])
-			return
-		};
-		strany[strana_id].kategorie[kategorie_id] = json.bps;
+		strany = json.strany;
+
+		for (const strana of strany) {
+			for (const bp of strana.body_programu) {
+				bp["otevrit"] = false;
+			}
+		}
 	}
 
+	export let strany = [];
+	let chosenStrana = 1;
 </script>
 
 <Logo />
@@ -79,7 +105,6 @@
 					style="background-color: {strana.barva}; color: {strana.sekundarni_barva};"
 					on:click={() => {
 						chosenStrana = index;
-						chosenKategorie = null;
 					}}
 				>
 					{strana.nazev}
@@ -111,86 +136,26 @@
 		color: {strany[chosenStrana].sekundarni_barva};
 		"
 	>
-		{#if chosenKategorie}
-			<span on:click={() => {
-				chosenKategorie = null;
-			}}>&lt;- Vrátit se zpět na výběr kategorií</span>
-			<br>
-			<div class="flex">
-				<div>
-					<img src="/Filtr.png" alt="Filtr" />
-					<span>Zobrazit filtry a řazení</span>
-				</div>
-				<div>
-					<span>Na co se to vlastně dívám?</span>
-					<img src="/QuestionMark.png" alt="Otazník" />
-				</div>
+		<div class="flex">
+			<div>
+				<img src="/Filtr.png" alt="Filtr" />
+				<span>Zobrazit filtry a řazení</span>
 			</div>
-			<h3>Body programu</h3>
-			{#if strany[strany[chosenStrana].id].kategorie[chosenKategorie]}
-				{#each strany[strany[chosenStrana].id]?.kategorie[chosenKategorie] as bp}
-					<BodProgramu {bp} barva={strany[chosenStrana].barva} />
-				{:else}
-					Načítání...
-				{/each}
-			{:else}
-				V této kategorii nemá strana {strany[chosenStrana].nazev} žádné body programu.
-			{/if}
-		{:else}
-			<h3>Vyber kategorii</h3>
-			<div id="kategorie">
-				<a href={"/get_some_bps/" + strany[chosenStrana].id.toString()} class="kat" style="background-color: grey; color: #ffffff">
-					Všechny
-				</a>
-				{#each kategorie as kat}
-					<div 
-						class="kat" 
-						style="background-color: {kat.barva}; color: #ffffff"
-						on:mouseenter={() => {
-							loadData(strany[chosenStrana].id, kat.id);
-						}}
-						on:click={() => {
-							chosenKategorie = kat.id
-						}} 
-					>
-						{kat.jmeno}
-					</div>
-				{/each}
-				<div class="boiler"></div>
-				<div class="boiler"></div>
-				<div class="boiler"></div>
+			<div>
+				<span>Na co se to vlastně dívám?</span>
+				<img src="/QuestionMark.png" alt="Otazník" />
 			</div>
+		</div>
+		<h3>Body programu</h3>
+		{#if strany[chosenStrana].body_programu}
+			{#each strany[chosenStrana]?.body_programu as bp}
+				<BodProgramu {bp} barva={strany[chosenStrana].barva} />
+			{/each}
 		{/if}
 	</div>
 </section>
 
 <style>
-	#kategorie {
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: space-between;
-	}
-	.kat {
-		border-radius: 5px;
-		width: 23%;
-		padding: 30px 0;
-		text-align: center;
-		margin-bottom: 20px;
-		
-		font-family: "Barlow";
-		font-weight: 500;
-		font-size: 26px;
-		
-		cursor: pointer;
-	}
-	.kat:hover {
-		filter: brightness(75%);
-	}
-
-	.boiler{
-		width: 23%;
-	}
-
 	section {
 		padding: 0px calc((100% - 90rem) / 2) 0px calc((100% - 90rem) / 2);
 	}
