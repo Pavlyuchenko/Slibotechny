@@ -29,6 +29,7 @@
 			for (let kat of kategorie) {
 				strana.kategorie[kat.id] = []
 			}
+			strana.kategorie[0] = []
 		}
 
 		return { kategorie, strany };
@@ -38,6 +39,7 @@
 <script>
 	import Logo from "../components/Logo.svelte";
 	import BodProgramu from "../components/BodProgramu.svelte";
+	import { onMount } from "svelte";
 
 	export let strany = [];
 	export let kategorie = [];
@@ -46,10 +48,17 @@
 	let chosenKategorie = null;
 
 	async function loadData (strana_id, kategorie_id) {
-		if (strany[strana_id].kategorie[kategorie_id].length > 0) return
+		if (strany[strana_id].kategorie[kategorie_id].length > 0 || strany[strana_id].kategorie[kategorie_id] === false) return
+
+		let url;
+		if (kategorie_id !== 0){
+			url = "https://slibotechnyapi.pythonanywhere.com/get_some_bps/" + strana_id + "/" + kategorie_id
+		} else {
+			url = "https://slibotechnyapi.pythonanywhere.com/get_some_bps/" + strana_id
+		}
 
 		const res = await fetch(
-			"https://slibotechnyapi.pythonanywhere.com/get_some_bps/" + strana_id + "/" + kategorie_id,
+			url,
 			{
 				method: "GET",
 				headers: {
@@ -66,6 +75,11 @@
 		strany[strana_id].kategorie[kategorie_id] = json.bps;
 	}
 
+	var isPc = true;
+	onMount(() => {
+		isPc = window.matchMedia("(hover: hover) and (pointer: fine)").matches
+		console.log(isPc)
+	})
 </script>
 
 <Logo />
@@ -111,11 +125,12 @@
 		color: {strany[chosenStrana].sekundarni_barva};
 		"
 	>
-		{#if chosenKategorie}
-			<span on:click={() => {
+		{#if chosenKategorie !== null && chosenKategorie !== undefined}
+			<div 
+				class="get-back" 
+				on:click={() => {
 				chosenKategorie = null;
-			}}>&lt;- Vrátit se zpět na výběr kategorií</span>
-			<br>
+			}}>← Výběr kategorií</div>
 			<div class="flex">
 				<div>
 					<img src="/Filtr.png" alt="Filtr" />
@@ -127,29 +142,61 @@
 				</div>
 			</div>
 			<h3>Body programu</h3>
+
 			{#if strany[strany[chosenStrana].id].kategorie[chosenKategorie]}
 				{#each strany[strany[chosenStrana].id]?.kategorie[chosenKategorie] as bp}
 					<BodProgramu {bp} barva={strany[chosenStrana].barva} />
 				{:else}
-					Načítání...
+					<div id="loading">
+						<div class="lds-ring"><div></div><div></div><div></div><div></div></div> Načítání...
+					</div>
 				{/each}
 			{:else}
-				V této kategorii nemá strana {strany[chosenStrana].nazev} žádné body programu.
+				<div id="loading">
+					V této kategorii nemá strana {strany[chosenStrana].nazev} žádné body programu.
+				</div>
 			{/if}
 		{:else}
-			<h3>Vyber kategorii</h3>
+			<div class="flex">
+				<div>
+				</div>
+				<div>
+					<span>Na co se to vlastně dívám?</span>
+					<img src="/QuestionMark.png" alt="Otazník" />
+				</div>
+			</div>
+			<h3 style="margin-top: 10px">Vyber kategorii</h3>
 			<div id="kategorie">
-				<a href={"/get_some_bps/" + strany[chosenStrana].id.toString()} class="kat" style="background-color: grey; color: #ffffff">
+				<div 
+					class="kat" 
+					style="background-color: grey; color: #fff;"
+					on:mouseenter={() => {
+						if (!isPc) return
+						loadData(strany[chosenStrana].id, 0);
+					}}
+					on:click={() => {
+						if (!isPc) {
+							loadData(strany[chosenStrana].id, 0);
+						}
+						chosenKategorie = 0
+
+						console.log(chosenKategorie === undefined)
+					}} 
+				>
 					Všechny
-				</a>
+				</div>
 				{#each kategorie as kat}
 					<div 
 						class="kat" 
-						style="background-color: {kat.barva}; color: #ffffff"
+						style="background-color: {kat.barva}; color: {kat.jmeno == "Energetika" || kat.jmeno == "Stát a vnitro" ? "#2D2D2D" : "#ffffff"}"
 						on:mouseenter={() => {
+							if (!isPc) return
 							loadData(strany[chosenStrana].id, kat.id);
 						}}
 						on:click={() => {
+							if (!isPc) {
+								loadData(strany[chosenStrana].id, kat.id);
+							}
 							chosenKategorie = kat.id
 						}} 
 					>
@@ -182,6 +229,7 @@
 		font-size: 26px;
 		
 		cursor: pointer;
+		transition: .15s;
 	}
 	.kat:hover {
 		filter: brightness(75%);
@@ -282,6 +330,24 @@
 		font-weight: 500;
 	}
 
+	.get-back{
+		font-size: 18px;
+		font-weight: 500;
+		margin-bottom: 20px;
+		display: inline-block;
+		padding: 5px 8px;
+		border-radius: 3px;
+
+		background-color: #fff;
+		color: #000;
+
+		cursor: pointer;
+		transition: .15s;
+	}
+	.get-back:hover{
+		filter: brightness(85%);
+	}
+	
 	#mobile-flex {
 		display: none;
 	}
@@ -300,13 +366,56 @@
 		border: 0;
 	}
 
-	/* CAUTION: Internet Explorer hackery ahead */
-
 	select::-ms-expand {
-		display: none; /* Remove default arrow in Internet Explorer 10 and 11 */
+		display: none; 
 	}
 
-	/* Target Internet Explorer 9 to undo the custom arrow */
+	#loading{
+		display: flex;
+		align-items: center;
+  		justify-content: center;
+
+		font-size: 22px;
+		font-weight: 500;
+	}
+	#loading:nth-child(2) {
+		margin-left: 40px;
+	}
+	.lds-ring {
+		display: inline-block;
+		position: relative;
+		width: 60px;
+		height: 60px;
+	}
+	.lds-ring div {
+		box-sizing: border-box;
+		display: block;
+		position: absolute;
+		width: 46px;
+		height: 46px;
+		margin: 8px;
+		border: 8px solid #fff;
+		border-radius: 50%;
+		animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+		border-color: #fff transparent transparent transparent;
+	}
+	.lds-ring div:nth-child(1) {
+		animation-delay: -0.45s;
+	}
+	.lds-ring div:nth-child(2) {
+		animation-delay: -0.3s;
+	}
+	.lds-ring div:nth-child(3) {
+		animation-delay: -0.15s;
+	}
+	@keyframes lds-ring {
+		0% {
+			transform: rotate(0deg);
+		}
+		100% {
+			transform: rotate(360deg);
+		}
+	}
 	@media screen and (min-width: 0\0) {
 		select {
 			background: none\9;
@@ -330,6 +439,9 @@
 			height: 50px;
 			line-height: 55px;
 		}
+		.kat {
+			width: 31%;
+		}
 	}
 	@media (max-width: 800px) {
 		section {
@@ -344,14 +456,23 @@
 		#body-programu {
 			padding: 20px 10px;
 		}
+		.kat {
+			width: 48%;
+		}
 	}
 	@media (max-width: 700px) {
 		#flex {
 			display: none;
 		}
-
+		
 		#mobile-flex {
 			display: block;
+		}
+	}
+	@media (max-width: 550px) {
+		.kat {
+			width: 100%;
+			padding: 20px 0;
 		}
 	}
 </style>
