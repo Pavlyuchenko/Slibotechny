@@ -251,7 +251,7 @@
 				{#each kategorie as kat}
 					<div 
 						class="kat" 
-						style="background-color: {kat.barva}; color: {kat.jmeno == "Energetika" || kat.jmeno == "Stát a vnitro" || kat.jmeno == "Zemědělství" ? "#2D2D2D" : "#ffffff"}; {!kat.barva && "display: none;"}"
+						style="background-color: {kat.barva}; color: {kat.jmeno == "Energetika" || kat.jmeno == "Stát a vnitro" || kat.jmeno == "Ze" ? "#2D2D2D" : "#ffffff"}; {!kat.barva && "display: none;"}"
 						on:mouseenter={() => {
 							if (!isPc) return
 							loadData(strany[chosenStrana].id, kat.id);
@@ -551,6 +551,13 @@
 	@media (max-width: 700px) {
 		#flex {
 			display: none;
+		}
+
+		.flex {
+			flex-direction: column;
+		}
+		.flex div {
+			margin-bottom: 20px;
 		}
 		
 		#mobile-flex {
