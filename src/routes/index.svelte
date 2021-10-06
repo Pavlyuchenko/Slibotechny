@@ -11,6 +11,7 @@
 		);
 		const json = await res.json();
 		let kategorie = json.kategorie;
+		kategorie.push({jmeno: "Všechny", id: 0})
 		const res2 = await this.fetch(
 			"https://slibotechnyapi.pythonanywhere.com/get_strany",
 			{
@@ -69,20 +70,74 @@
 		const json = await res.json();
 		if (json.bps.length == 0) {
 			strany[strana_id].kategorie[kategorie_id] = false;
-			console.log(strany[strany[chosenStrana].id].kategorie[kategorie_id])
 			return
 		};
+		
+		function compare( a, b ) {
+			let collator = new Intl.Collator('cs');
+			let order = collator.compare(a.kategorie, b.kategorie);
+
+			if (order === 0) {
+				const order2 = collator.compare(a.nadpis, b.nadpis)
+				return order2
+			} else {
+				return order
+			}
+		}
+
+		json.bps.sort(compare);
+
 		strany[strana_id].kategorie[kategorie_id] = json.bps;
 	}
 
 	var isPc = true;
 	onMount(() => {
 		isPc = window.matchMedia("(hover: hover) and (pointer: fine)").matches
-		console.log(isPc)
 	})
+
+	let showFilters = false;
+	let splneno1 = true;
+	let splneno2 = true;
+	let splneno3 = true;
+	let splneno4 = true;
+
+	/* let filteredBps = null;
+
+	function filterBPs() {
+		filteredBps = strany[strany[chosenStrana].id]?.kategorie[chosenKategorie].filter(bp => {
+			switch (bp.splneno) {
+				case 1:
+					return splneno1
+				case 2:
+					return splneno2
+				case 3:
+					return splneno3
+				case 4:
+					return splneno4
+			
+				default:
+					return false
+			}
+		})
+	} */
 </script>
 
 <Logo />
+
+{#if showFilters} 
+	<div id="filters">
+		<h4>Filtry a řazení</h4>
+		<h5>Podle splnění bodu</h5>
+		<input type="checkbox" id="splneno1" name="splneno1" value="1" bind:checked={splneno1} on:click={filterBPs}>
+		<label for="splneno1">Splněno</label>
+		<input type="checkbox" id="splneno2" name="splneno2" value="2" bind:checked={splneno2} on:click={filterBPs}>
+		<label for="splneno2">Nesplněno</label>
+		<input type="checkbox" id="splneno3" name="splneno3" value="3" bind:checked={splneno3} on:click={filterBPs}>
+		<label for="splneno3">Částečně splněno</label>
+		<input type="checkbox" id="splneno4" name="splneno4" value="4" bind:checked={splneno4} on:click={filterBPs}>
+		<label for="splneno4">Zatím neadresováno</label>
+	</div>
+{/if}
 
 <section>
 	<div id="flex">
@@ -126,22 +181,34 @@
 		"
 	>
 		{#if chosenKategorie !== null && chosenKategorie !== undefined}
-			<div 
-				class="get-back" 
-				on:click={() => {
-				chosenKategorie = null;
-			}}>← Výběr kategorií</div>
 			<div class="flex">
-				<div>
-					<img src="/Filtr.png" alt="Filtr" />
-					<span>Zobrazit filtry a řazení</span>
-				</div>
+				<div 
+					class="get-back" 
+					on:click={() => {
+					chosenKategorie = null;
+				}}>← Výběr kategorií</div>
+				<!-- <div on:click|self={() => {
+					showFilters = !showFilters
+				}}>
+					<img src="/Filtr.png" alt="Filtr" on:click|self={() => {
+						showFilters = !showFilters
+					}}/>
+					<span on:click|self={() => {
+						showFilters = !showFilters
+					}}>
+						Zobrazit filtry a řazení
+					</span>
+				</div> -->
 				<div>
 					<span>Na co se to vlastně dívám?</span>
 					<img src="/QuestionMark.png" alt="Otazník" />
 				</div>
 			</div>
-			<h3>Body programu</h3>
+			<h3>Body programu z kategorie 
+				{kategorie.filter(kat => {
+					return kat.id === chosenKategorie
+				})[0].jmeno}
+			</h3>
 
 			{#if strany[strany[chosenStrana].id].kategorie[chosenKategorie]}
 				{#each strany[strany[chosenStrana].id]?.kategorie[chosenKategorie] as bp}
@@ -158,14 +225,12 @@
 			{/if}
 		{:else}
 			<div class="flex">
-				<div>
-				</div>
+				<h3 style="margin-top: 10px">Vyber kategorii</h3>
 				<div>
 					<span>Na co se to vlastně dívám?</span>
 					<img src="/QuestionMark.png" alt="Otazník" />
 				</div>
 			</div>
-			<h3 style="margin-top: 10px">Vyber kategorii</h3>
 			<div id="kategorie">
 				<div 
 					class="kat" 
@@ -179,8 +244,6 @@
 							loadData(strany[chosenStrana].id, 0);
 						}
 						chosenKategorie = 0
-
-						console.log(chosenKategorie === undefined)
 					}} 
 				>
 					Všechny
@@ -188,7 +251,7 @@
 				{#each kategorie as kat}
 					<div 
 						class="kat" 
-						style="background-color: {kat.barva}; color: {kat.jmeno == "Energetika" || kat.jmeno == "Stát a vnitro" ? "#2D2D2D" : "#ffffff"}"
+						style="background-color: {kat.barva}; color: {kat.jmeno == "Energetika" || kat.jmeno == "Stát a vnitro" || kat.jmeno == "Zemědělství" ? "#2D2D2D" : "#ffffff"}; {!kat.barva && "display: none;"}"
 						on:mouseenter={() => {
 							if (!isPc) return
 							loadData(strany[chosenStrana].id, kat.id);
@@ -212,6 +275,33 @@
 </section>
 
 <style>
+	#filters {
+		position: fixed;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+
+		min-width: 400px;
+		padding: 15px 20px;
+
+		background-color:rgba(40, 40, 40, .95);
+		color: #fff;
+
+		z-index: 1000;
+	}
+	#filters h4{
+		font-size: 30px;
+		font-weight: 500;
+		margin: 0;
+		margin-bottom: 10px;
+	}
+	#filters h5{
+		font-size: 24px;
+		font-weight: 400;
+		margin: 0;
+		margin-bottom: 5px;
+	}
+
 	#kategorie {
 		display: flex;
 		flex-wrap: wrap;
@@ -291,8 +381,6 @@
 		margin-bottom: 30px;
 		box-sizing: border-box;
 		transition: 0.15s;
-		overflow-y: hidden;
-		overflow-x: hidden;
 	}
 
 	.flex {

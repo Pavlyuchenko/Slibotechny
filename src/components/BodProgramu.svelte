@@ -78,9 +78,6 @@
 		<div
 			class="hidden-bp"
 			id="box{bp.id}"
-			on:click={() => {
-				console.log("Nothing");
-			}}
 		>
 			<p class="kategorie-jmeno" style="color: {bp.kategorie_barva};">
 				{bp.kategorie}
@@ -137,19 +134,19 @@
 		</div>
 	</div>
 	{#if bp.splneno == 1}
-		<div class="splneno" style="background-color: rgb(76, 175, 80);">
+		<div class="splneno spl1" style="background-color: rgb(76, 175, 80);">
 			<img src={"/tick.png"} alt="Fajfka" />
 		</div>
 	{:else if bp.splneno == 2}
-		<div class="splneno" style="background-color: rgb(223, 71, 89);">
+		<div class="splneno spl2" style="background-color: rgb(223, 71, 89);">
 			<img src={"/cross.png"} alt="Křížek" />
 		</div>
 	{:else if bp.splneno == 3}
-		<div class="splneno" style="background-color: rgb(255, 193, 7);">
+		<div class="splneno spl3" style="background-color: rgb(255, 193, 7);">
 			<img src={"/qm.png"} alt="Otazník" />
 		</div>
 	{:else if bp.splneno == 4}
-		<div class="splneno" style="background-color: rgb(130, 136, 144);">
+		<div class="splneno spl4" style="background-color: rgb(130, 136, 144);">
 			<img src={"/-.png"} alt="Pomlčka" />
 		</div>
 	{/if}
@@ -213,6 +210,37 @@
 		min-width: 60px;
 		height: 40px;
 		position: relative;
+		cursor: help;
+	}
+	.splneno:after {
+		display: none;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		border: 2px solid #2d2d2d;
+		border-radius: 3px;
+		background-color: #fff;
+		color: #2d2d2d;
+		z-index: 10;
+		min-width: 200px;
+		padding: 3px 5px;
+		font-size: 20px;
+		font-weight: 500;
+	}
+	.splneno:hover:after {
+		display: block
+	}
+	.spl1:after {
+		content: "Strana tento bod v plném rozsahu splňuje";
+	}
+	.spl2:after {
+		content: "Hlasování strany je v rozporu s tímto slibem";
+	}
+	.spl3:after {
+		content: "Strana tento bod splňuje pouze částečně";
+	}
+	.spl4:after {
+		content: "Strana tento bod zatím nepodpořila";
 	}
 	.splneno img {
 		position: absolute;

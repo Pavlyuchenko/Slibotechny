@@ -45,7 +45,6 @@
 		}
 
 		window.addEventListener("resize", () => {
-			console.log("Resized");
 			[ctx, canvasWidth, canvasHeight] = setCanvasDimensions(ctx);
 			createBackground(rectWidth, canvasWidth, canvasHeight);
 		});
