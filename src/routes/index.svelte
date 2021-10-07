@@ -190,6 +190,13 @@
 		"
 	>
 		{#if chosenStrana === ""}
+
+
+
+			<!-- SAFE SPACE PRO DANA -->
+
+
+
 			<h2 id="main-title">Vítejte na stránce Slibotechny.cz!</h2>
 			<p id="main-text">
 				Slibotechny jsou studentským projektem, který se snaží
@@ -207,6 +214,10 @@
 			<h3 id="main-callout">
 				Abys mohl začít kontrolovat sliby politických stran, vyber si jednu ze stran v horním výběru.
 			</h3>
+
+
+			<!-- KONEC SAFE SPACE PRO DANA  -->
+
 		{:else}
 			{#if chosenKategorie !== null && chosenKategorie !== undefined}
 				<div class="flex">
