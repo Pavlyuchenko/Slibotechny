@@ -45,7 +45,8 @@
 	export let strany = [];
 	export let kategorie = [];
 
-	let chosenStrana = 1;
+	let chosenStrana = "";
+
 	let chosenKategorie = null;
 
 	async function loadData (strana_id, kategorie_id) {
@@ -95,36 +96,36 @@
 		isPc = window.matchMedia("(hover: hover) and (pointer: fine)").matches
 	})
 
-	let showFilters = false;
-	let splneno1 = true;
-	let splneno2 = true;
-	let splneno3 = true;
-	let splneno4 = true;
+	/*	let showFilters = false;
+		let splneno1 = true;
+		let splneno2 = true;
+		let splneno3 = true;
+		let splneno4 = true;
 
-	/* let filteredBps = null;
+		let filteredBps = null;
 
-	function filterBPs() {
-		filteredBps = strany[strany[chosenStrana].id]?.kategorie[chosenKategorie].filter(bp => {
-			switch (bp.splneno) {
-				case 1:
-					return splneno1
-				case 2:
-					return splneno2
-				case 3:
-					return splneno3
-				case 4:
-					return splneno4
-			
-				default:
-					return false
-			}
-		})
+		function filterBPs() {
+			filteredBps = strany[strany[chosenStrana].id]?.kategorie[chosenKategorie].filter(bp => {
+				switch (bp.splneno) {
+					case 1:
+						return splneno1
+					case 2:
+						return splneno2
+					case 3:
+						return splneno3
+					case 4:
+						return splneno4
+				
+					default:
+						return false
+				}
+			})
 	} */
 </script>
 
 <Logo />
 
-{#if showFilters} 
+<!-- {#if showFilters} 
 	<div id="filters">
 		<h4>Filtry a řazení</h4>
 		<h5>Podle splnění bodu</h5>
@@ -137,14 +138,14 @@
 		<input type="checkbox" id="splneno4" name="splneno4" value="4" bind:checked={splneno4} on:click={filterBPs}>
 		<label for="splneno4">Zatím neadresováno</label>
 	</div>
-{/if}
+{/if} -->
 
 <section>
 	<div id="flex">
 		{#each strany as strana, index}
 			{#if index < 10}
 				<div
-					class="strana-clickable {index == chosenStrana && 'active'}"
+					class="strana-clickable {index === chosenStrana && 'active'}"
 					style="background-color: {strana.barva}; color: {strana.sekundarni_barva};"
 					on:click={() => {
 						chosenStrana = index;
@@ -161,121 +162,153 @@
 			name=""
 			id=""
 			bind:value={chosenStrana}
-			style="background-color: {strany[chosenStrana].barva};
-			 	   color: {strany[chosenStrana].sekundarni_barva};"
-		>
+			style="background-color: {chosenStrana !== "" ? strany[chosenStrana]?.barva : "#fff"};
+			 	   color: {chosenStrana !== "" ? strany[chosenStrana]?.sekundarni_barva : "#2d2d2d"};
+				   border: {chosenStrana !== "" ? "0" : "5px solid #2d2d2d"}
+				"
+		>	
+			{#if chosenStrana === ""}
+				<option value="" disabled selected>Vyberte stranu</option>
+			{/if}
 			{#each strany as strana, index}
 				<option
 					value={index}
 					style="background-color: {strana.barva};
-							color: {strana.sekundarni_barva};">{strana.nazev}</option
+							color: {strana.sekundarni_barva};"
 				>
+					{strana.nazev}
+				</option>
 			{/each}
 		</select>
 	</div>
 
 	<div
 		id="body-programu"
-		style="background-color: {strany[chosenStrana].barva}; 
-		color: {strany[chosenStrana].sekundarni_barva};
+		style="background-color: {chosenStrana !== "" ? strany[chosenStrana]?.barva : "#fff"}; 
+		color: {chosenStrana !== "" ? strany[chosenStrana]?.sekundarni_barva : "#2d2d2d"};
+		border: {chosenStrana !== "" ? "0" : "5px solid #2d2d2d"}
 		"
 	>
-		{#if chosenKategorie !== null && chosenKategorie !== undefined}
-			<div class="flex">
-				<div 
-					class="get-back" 
-					on:click={() => {
-					chosenKategorie = null;
-				}}>← Výběr kategorií</div>
-				<!-- <div on:click|self={() => {
-					showFilters = !showFilters
-				}}>
-					<img src="/Filtr.png" alt="Filtr" on:click|self={() => {
-						showFilters = !showFilters
-					}}/>
-					<span on:click|self={() => {
+		{#if chosenStrana === ""}
+			<h2 id="main-title">Vítejte na stránce Slibotechny.cz!</h2>
+			<p id="main-text">
+				Slibotechny jsou studentským projektem, který se snaží
+			    upozorňovat na plnění a neplnění politických programů a
+			    slibů, na které v nich politické strany lákají voliče. 
+				Náš zájem o politiku by totiž zdaleka neměl končit u voleb – 
+				měl by trvat celé volební období. Je třeba, abychom drželi 
+				politiky odpovědnými za své sliby a programy. A Slibotechny 
+				si dávají za cíl tuto činnost ulehčit. U každé strany v Poslanecké
+				sněmovně se můžete jednoduše přesvědčit, které programové body byly
+				skutečně splněny a které byly jen planými výroky. Našim cílem je, aby
+				si politici za svými programy skutečně stáli a aby je nepoužívali jen 
+				na sbírání hlasů. Budeme rádi, když nám v tom pomůžete.
+			</p>
+			<h3 id="main-callout">
+				Abys mohl začít kontrolovat sliby politických stran, vyber si jednu ze stran v horním výběru.
+			</h3>
+		{:else}
+			{#if chosenKategorie !== null && chosenKategorie !== undefined}
+				<div class="flex">
+					<div 
+						class="get-back" 
+						on:click={() => {
+						chosenKategorie = null;
+					}}>← Výběr kategorií</div>
+					<!-- <div on:click|self={() => {
 						showFilters = !showFilters
 					}}>
-						Zobrazit filtry a řazení
-					</span>
-				</div> -->
-				<div>
-					<span>Na co se to vlastně dívám?</span>
-					<img src="/QuestionMark.png" alt="Otazník" />
+						<img src="/Filtr.png" alt="Filtr" on:click|self={() => {
+							showFilters = !showFilters
+						}}/>
+						<span on:click|self={() => {
+							showFilters = !showFilters
+						}}>
+							Zobrazit filtry a řazení
+						</span>
+					</div> -->
+					<div on:click={() => {
+						chosenStrana = "";
+					}}>
+						<span>Na co se to vlastně dívám?</span>
+						<img src="/QuestionMark.png" alt="Otazník" />
+					</div>
 				</div>
-			</div>
-			<h3>Body programu z kategorie 
-				{kategorie.filter(kat => {
-					return kat.id === chosenKategorie
-				})[0].jmeno}
-			</h3>
+				<h3>Body programu z kategorie 
+					{kategorie.filter(kat => {
+						return kat.id === chosenKategorie
+					})[0].jmeno}
+				</h3>
 
-			{#if strany[strany[chosenStrana].id].kategorie[chosenKategorie]}
-				{#each strany[strany[chosenStrana].id]?.kategorie[chosenKategorie] as bp}
-					<BodProgramu {bp} barva={strany[chosenStrana].barva} />
+				{#if strany[strany[chosenStrana].id].kategorie[chosenKategorie]}
+					{#each strany[strany[chosenStrana].id]?.kategorie[chosenKategorie] as bp}
+						<BodProgramu {bp} barva={strany[chosenStrana].barva} />
+					{:else}
+						<div id="loading">
+							<div class="lds-ring"><div></div><div></div><div></div><div></div></div> Načítání...
+						</div>
+					{/each}
 				{:else}
 					<div id="loading">
-						<div class="lds-ring"><div></div><div></div><div></div><div></div></div> Načítání...
+						V této kategorii nemá strana {strany[chosenStrana].nazev} žádné body programu.
 					</div>
-				{/each}
+				{/if}
 			{:else}
-				<div id="loading">
-					V této kategorii nemá strana {strany[chosenStrana].nazev} žádné body programu.
+				<div class="flex">
+					<h3 style="margin-top: 10px">Vyber kategorii</h3>
+					<div on:click={() => {
+						chosenStrana = "";
+					}}>
+						<span>Na co se to vlastně dívám?</span>
+						<img src="/QuestionMark.png" alt="Otazník" />
+					</div>
 				</div>
-			{/if}
-		{:else}
-			<div class="flex">
-				<h3 style="margin-top: 10px">Vyber kategorii</h3>
-				<div>
-					<span>Na co se to vlastně dívám?</span>
-					<img src="/QuestionMark.png" alt="Otazník" />
-				</div>
-			</div>
-			<div id="kategorie">
-				<div 
-					class="kat" 
-					style="background-color: grey; color: #fff;"
-					on:mouseenter={() => {
-						if (!isPc) return
-						loadData(strany[chosenStrana].id, 0);
-					}}
-					on:click={() => {
-						if (!isPc) {
-							loadData(strany[chosenStrana].id, 0);
-						}
-						chosenKategorie = 0
-					}} 
-				>
-					Všechny
-				</div>
-				{#each kategorie as kat}
+				<div id="kategorie">
 					<div 
 						class="kat" 
-						style="background-color: {kat.barva}; color: {kat.jmeno == "Energetika" || kat.jmeno == "Stát a vnitro" || kat.jmeno == "Ze" ? "#2D2D2D" : "#ffffff"}; {!kat.barva && "display: none;"}"
+						style="background-color: grey; color: #fff;"
 						on:mouseenter={() => {
 							if (!isPc) return
-							loadData(strany[chosenStrana].id, kat.id);
+							loadData(strany[chosenStrana].id, 0);
 						}}
 						on:click={() => {
 							if (!isPc) {
-								loadData(strany[chosenStrana].id, kat.id);
+								loadData(strany[chosenStrana].id, 0);
 							}
-							chosenKategorie = kat.id
+							chosenKategorie = 0
 						}} 
 					>
-						{kat.jmeno}
+						Všechny
 					</div>
-				{/each}
-				<div class="boiler"></div>
-				<div class="boiler"></div>
-				<div class="boiler"></div>
-			</div>
+					{#each kategorie as kat}
+						<div 
+							class="kat" 
+							style="background-color: {kat.barva}; color: {kat.jmeno == "Energetika" || kat.jmeno == "Stát a vnitro" || kat.jmeno == "Ze" ? "#2D2D2D" : "#ffffff"}; {!kat.barva && "display: none;"}"
+							on:mouseenter={() => {
+								if (!isPc) return
+								loadData(strany[chosenStrana].id, kat.id);
+							}}
+							on:click={() => {
+								if (!isPc) {
+									loadData(strany[chosenStrana].id, kat.id);
+								}
+								chosenKategorie = kat.id
+							}} 
+						>
+							{kat.jmeno}
+						</div>
+					{/each}
+					<div class="boiler"></div>
+					<div class="boiler"></div>
+					<div class="boiler"></div>
+				</div>
+			{/if}
 		{/if}
 	</div>
 </section>
 
 <style>
-	#filters {
+	/* #filters {
 		position: fixed;
 		top: 50%;
 		left: 50%;
@@ -300,6 +333,16 @@
 		font-weight: 400;
 		margin: 0;
 		margin-bottom: 5px;
+	} */
+
+	#main-title {
+		margin: 10px 0;
+		margin-bottom: 15px;
+		font-size: 40px;
+	}
+	#main-text {
+		font-size: 19px;
+		line-height: 135%;
 	}
 
 	#kategorie {
