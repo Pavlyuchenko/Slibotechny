@@ -143,13 +143,16 @@
 <section>
 	<div id="flex">
 		{#each strany as strana, index}
-			{#if index < 10}
+			{#if index < 7}
 				<div
 					class="strana-clickable {index === chosenStrana && 'active'}"
 					style="background-color: {strana.barva}; color: {strana.sekundarni_barva};"
 					on:click={() => {
 						chosenStrana = index;
-						chosenKategorie = null;
+						/* chosenKategorie = null; */
+						if (chosenKategorie || chosenKategorie === 0) {
+							loadData(strany[index].id, chosenKategorie)
+						}
 					}}
 				>
 					{strana.nazev}
