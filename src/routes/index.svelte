@@ -200,9 +200,9 @@
 
 
 
-			<h2 id="main-title" style="text-align:center;">Vítejte na stránce Slibotechny.cz!</h2>
+			<h2 id="main-title" style="text-align:center;">Vítejte na webu Slibotechny.cz!</h2>
 			<h3 style="text-align:center;">Co jsou to Slibotechny a proč vznikly?</h3>
-			<div id="main-text">
+			<div id="main-text" style="margin:0 auto; width:70%">
 			    <p>
 			    Projevovat občanskou aktivitu se dá mnoha způsoby, velké části lidí však na mysl přijde zejména jeden - volby. Nedávno proběhly volby do Poslanecké sněmovny ČR, ve kterých svůj hlas odevzdalo nejvíce lidí v tomto století. Občané Česka tedy zájem o dění ve své zemi rozhodně mají, zapojení však u voleb zdaleka nemusí končit -  mělo by trvat nejlépe celé volební období. Během tohoto období je třeba zvolené politiky a političky držet odpovědnými za své sliby a programy, které představili ve volbách. Jedná se o nesnadný úkol, který se snaží zjednodušit a zpříjemnit právě web Slibotechny.
 			    </p>
@@ -374,6 +374,9 @@
 	#main-text {
 		font-size: 19px;
 		line-height: 135%;
+	}
+	#main-text p {
+		margin: 0 0 10px 0;
 	}
 
 	#kategorie {
