@@ -41,6 +41,7 @@
 	import Logo from "../components/Logo.svelte";
 	import BodProgramu from "../components/BodProgramu.svelte";
 	import { onMount } from "svelte";
+import IndexContentBp from "../components/IndexContentBP.svelte";
 
 	export let strany = [];
 	export let kategorie = [];
@@ -121,6 +122,20 @@
 				}
 			})
 	} */
+
+
+	// PRO DANA #2
+	const menu = [
+		{
+			nadpis: "Kontakt",
+			content: "<h2>Toto je h2 element</h2>A toto pouhý text. <i><b>Jak můžeš vidět, fungují HTML tagy :)</b></i>",
+		},
+		{
+			nadpis: "O nás",
+			content: "<h4>O týmu slibotechny.cz:<h4><ul><li style='font-size: 30px'>Míša Pavlíček - bůh programování</li><li style='font-size: 10px'>Dan, Prokop, Zita - nedůležitý zbytek týmu</lo></ul>",
+		}
+	]
+	// KONEC PRO DANA #2
 </script>
 
 <Logo />
@@ -197,43 +212,54 @@
 
 
 			<!-- SAFE SPACE PRO DANA -->
-
-
+			<!-- Hledej "PRO DANA #2" -->
+			<!-- OLD CONTENT
+				<h2 id="main-title" style="text-align:center;">Vítejte na webu Slibotechny.cz!</h2>
+				<h3 style="text-align:center;">Co jsou to Slibotechny a proč vznikly?</h3>
+				<div id="main-text" style="margin:0 auto; width:70%">
+					<p>
+					Projevovat občanskou aktivitu se dá mnoha způsoby, velké části lidí však na mysl přijde zejména jeden - volby. Nedávno proběhly volby do Poslanecké sněmovny ČR, ve kterých svůj hlas odevzdalo nejvíce lidí v tomto století. Občané Česka tedy zájem o dění ve své zemi rozhodně mají, zapojení však u voleb zdaleka nemusí končit -  mělo by trvat nejlépe celé volební období. Během tohoto období je třeba zvolené politiky a političky držet odpovědnými za své sliby a programy, které představili ve volbách. Jedná se o nesnadný úkol, který se snaží zjednodušit a zpříjemnit právě web Slibotechny.
+					</p>
+					<p>
+					Slibotechny jsou studentským projektem, který se snaží upozorňovat na plnění a neplnění politických programů a slibů, na které v programech politické strany lákají voliče. Konkrétně jsme se zaměřili na nejvýraznější politické subjekty, které v roce 2021 v předvolebních průzkumech dokázaly překročit 5 % hranici pro vstup do sněmovny. 
+					</p>
+					<p>
+					To znamená celkem 10 politických stran a hnutí (koalice Spolu a Piráti a Starostové jsou rozděleny na jednotlivé strany, jelikož mají v Poslanecké sněmovně samostatné kluby). Terčem našeho zájmu sice budou zejména strany zastoupené ve sněmovně, nezapomínáme však také na některé menší strany se značným volebním potenciálem.
+					</p>
+					<p>
+					U každého politického subjektu se můžete jednoduše přesvědčit, které programové body byly skutečně splněny a které byly jen prázdnými výroky. Body jsou řazeny do různých kategorií a seskupují několik konkrétních návrhů. Jedná se zpravidla o návrhy, u kterých jde co nejobjektivněji potvrdit jejich splnění. Plnění programových bodů a návrhů je rozděleno na 4 kategorie:
+					</p>
+					<p>
+					✅ Bod byl splněn
+					</p>
+					<p>
+					❌ Bod nebyl splněn
+					</p>
+					<p>
+					❔ Nelze přesvědčivě určit, zda byl bod splněn
+					</p>
+					<p>
+					➖ Bod dosud čeká na splnění
+					</p>
+					<p>
+					Během následujícího volebního období budete na webu Slibotechny postupně moct sledovat, které body a návrhy se stranám podařilo splnit a také proč se tomu tak stalo. V budoucnu se můžete těšit například i na blogovou sekci.
+					</p>
+					<p style="font-weight: bold;">
+					Našim cílem je, aby si politici za svými programy skutečně stáli a aby je nepoužívali jen na sbírání hlasů. Budeme rádi, když nám v tom pomůžete.
+					</p>
+				</div> 
+			-->
 
 			<h2 id="main-title" style="text-align:center;">Vítejte na webu Slibotechny.cz!</h2>
-			<h3 style="text-align:center;">Co jsou to Slibotechny a proč vznikly?</h3>
-			<div id="main-text" style="margin:0 auto; width:70%">
-			    <p>
-			    Projevovat občanskou aktivitu se dá mnoha způsoby, velké části lidí však na mysl přijde zejména jeden - volby. Nedávno proběhly volby do Poslanecké sněmovny ČR, ve kterých svůj hlas odevzdalo nejvíce lidí v tomto století. Občané Česka tedy zájem o dění ve své zemi rozhodně mají, zapojení však u voleb zdaleka nemusí končit -  mělo by trvat nejlépe celé volební období. Během tohoto období je třeba zvolené politiky a političky držet odpovědnými za své sliby a programy, které představili ve volbách. Jedná se o nesnadný úkol, který se snaží zjednodušit a zpříjemnit právě web Slibotechny.
-			    </p>
-			    <p>
-			    Slibotechny jsou studentským projektem, který se snaží upozorňovat na plnění a neplnění politických programů a slibů, na které v programech politické strany lákají voliče. Konkrétně jsme se zaměřili na nejvýraznější politické subjekty, které v roce 2021 v předvolebních průzkumech dokázaly překročit 5 % hranici pro vstup do sněmovny. 
-			    </p>
-			    <p>
-			    To znamená celkem 10 politických stran a hnutí (koalice Spolu a Piráti a Starostové jsou rozděleny na jednotlivé strany, jelikož mají v Poslanecké sněmovně samostatné kluby). Terčem našeho zájmu sice budou zejména strany zastoupené ve sněmovně, nezapomínáme však také na některé menší strany se značným volebním potenciálem.
-			    </p>
-			    <p>
-			    U každého politického subjektu se můžete jednoduše přesvědčit, které programové body byly skutečně splněny a které byly jen prázdnými výroky. Body jsou řazeny do různých kategorií a seskupují několik konkrétních návrhů. Jedná se zpravidla o návrhy, u kterých jde co nejobjektivněji potvrdit jejich splnění. Plnění programových bodů a návrhů je rozděleno na 4 kategorie:
-			    </p>
-			    <p>
-			    ✅ Bod byl splněn
-			    </p>
-			    <p>
-			    ❌ Bod nebyl splněn
-			    </p>
-			    <p>
-			    ❔ Nelze přesvědčivě určit, zda byl bod splněn
-			    </p>
-			    <p>
-			    ➖ Bod dosud čeká na splnění
-			    </p>
-			    <p>
-			    Během následujícího volebního období budete na webu Slibotechny postupně moct sledovat, které body a návrhy se stranám podařilo splnit a také proč se tomu tak stalo. V budoucnu se můžete těšit například i na blogovou sekci.
-			    </p>
-			    <p style="font-weight: bold;">
-			    Našim cílem je, aby si politici za svými programy skutečně stáli a aby je nepoužívali jen na sbírání hlasů. Budeme rádi, když nám v tom pomůžete.
-			    </p>
-			</div>
+			<div id="main-text" style="margin:0 auto; width:100%">
+				<p>
+					Slibotechny jsou studentským projektem, který se snaží upozorňovat na plnění a neplnění politických programů a slibů, na které v programech politické strany lákají voliče. Konkrétně jsme se zaměřili na nejvýraznější politické subjekty, které v roce 2021 v předvolebních průzkumech dokázaly překročit 5 % hranici pro vstup do sněmovny. 
+				</p>
+			</div> 
+			<br>
+			{#each menu as point}
+				<IndexContentBp nadpis={point.nadpis} content={point.content} />
+			{/each}
 
 
 			<!-- KONEC SAFE SPACE PRO DANA  -->
