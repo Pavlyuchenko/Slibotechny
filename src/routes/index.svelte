@@ -128,12 +128,7 @@ import IndexContentBp from "../components/IndexContentBP.svelte";
 	const menu = [
 		{
 			nadpis: "Jak používat web Slibotechny",
-			content: "V horním výberu klikněte na stranu, jež vás zajímá. Následně zvolte kategorii. Objeví se seznam témat z dané kategorie. Po kliknutí na libovolné téma se zobrazí stručné shrnutí postoje strany k danému tématu, konkrétní návrhy, které chce strana prosadit, přesnou citaci z programu a odkaz na originální verzi programu. U každého návrhu pak uvidíte jeho status, odpovídající tomuto klíči:
-		    ✅ Bod byl splněn
-		    ❌ Bod nebyl splněn
-		    ❔ Nelze přesvědčivě určit, zda byl bod splněn
-		    ➖ Bod dosud čeká na splnění
-		    Tyto značky se pak v průběhu volebního období budou měnit v závisloti na tom, jak daná strana svůj program prosazuje.",
+			content: "V horním výberu klikněte na stranu, jež vás zajímá. Následně zvolte kategorii. Objeví se seznam témat z dané kategorie. Po kliknutí na libovolné téma se zobrazí stručné shrnutí postoje strany k danému tématu, konkrétní návrhy, které chce strana prosadit, přesnou citaci z programu a odkaz na originální verzi programu. U každého návrhu pak uvidíte jeho status, odpovídající tomuto klíči:<br>✅ Bod byl splněn<br>❌ Bod nebyl splněn<br>❔ Nelze přesvědčivě určit, zda byl bod splněn<br>➖ Bod dosud čeká na splnění<br>Tyto značky se pak v průběhu volebního období budou měnit v závislosti na tom, jak daná strana svůj program prosazuje.",
 		},
 		{
 			nadpis: "Kontakt",
