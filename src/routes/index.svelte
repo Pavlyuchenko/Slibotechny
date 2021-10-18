@@ -127,16 +127,33 @@ import IndexContentBp from "../components/IndexContentBP.svelte";
 	// PRO DANA #2
 	const menu = [
 		{
-			nadpis: "Jak používat web Slibotechny",
-			content: "V horním výberu klikněte na stranu, jež vás zajímá. Následně zvolte kategorii. Objeví se seznam témat z dané kategorie. Po kliknutí na libovolné téma se zobrazí stručné shrnutí postoje strany k danému tématu, konkrétní návrhy, které chce strana prosadit, přesnou citaci z programu a odkaz na originální verzi programu. U každého návrhu pak uvidíte jeho status, odpovídající tomuto klíči:<br>✅ Bod byl splněn<br>❌ Bod nebyl splněn<br>❔ Nelze přesvědčivě určit, zda byl bod splněn<br>➖ Bod dosud čeká na splnění<br>Tyto značky se pak v průběhu volebního období budou měnit v závislosti na tom, jak daná strana svůj program prosazuje.",
+			nadpis: "O co jde?",
+			content: "Slibotechny jsou studentským projektem, který se snaží upozorňovat na plnění a neplnění politických programů. Během voleb mapujeme volební programy politických stran a hnutí a hledáme v nich konkrétní návrhy. Celé následující období pak sledujeme a vyhodnocujeme zda a do jaké míry jsou návrhy prosazovány.",
 		},
 		{
-			nadpis: "Kontakt",
-			content: "<h2>Toto je h2 element</h2>A toto pouhý text. <i><b>Jak můžeš vidět, fungují HTML tagy :)</b></i>",
+			nadpis: "Proč je to důležité?",
+			content: "Celý web jsme stvořili s těmito zámery:<ol><li>Poskytnout občanům jednoduchý přehled politických programů se zaměřením na konkrétní podporované návrhy.</li><li>Umožnit lidem sledovat do jaké míry politická uskupení svůj předvolební program dodržují. Ostatně, prosazování jejich programů by měl být jeden z hlavních důvodů jejich volby.</li><li>Donutit volební strany a hnutí psát kvalitní, srozumitelné a konkrétní volební programy.</li><li>Připomínat politickým stranám a hnutím jejich volební program během celého jejich mandátu. Nechceme, aby programy vyšuměly týden po volbách.</li><li>A nakonec, chceme, aby politický program hrál při volbách opět podstatnou roli. V době, kdy o výsledku voleb rozhodují lajky na Facebooku je to opravdu třeba. Koneckonců, nastupujete-li do vlaku, taky budete rádi, když mašinfíra po pár kilometrech jízdy nezapomene, s cílem jaké stanice jste vlastně nastoupili do vlaku právě k němu.</li></ol>",
 		},
 		{
-			nadpis: "O nás",
-			content: "<h4>O týmu slibotechny.cz:<h4><ul><li style='font-size: 30px'>Míša Pavlíček - bůh programování</li><li style='font-size: 10px'>Dan, Prokop, Zita - nedůležitý zbytek týmu</lo></ul>",
+			nadpis: "Jak používat tento web?",
+			content: "V horním výberu klikněte na stranu, jež vás zajímá. Následně zvolte kategorii. Objeví se seznam témat z dané kategorie. Po kliknutí na libovolné téma se zobrazí stručné shrnutí postoje strany k danému tématu, konkrétní návrhy, které chce strana prosadit, přesnou citaci z programu a odkaz na originální verzi programu. U každého návrhu pak uvidíte jeho status, odpovídající tomuto klíči:<br><br>✅ Bod byl splněn<br>❌ Bod nebyl splněn<br>❔ Nelze přesvědčivě určit, zda byl bod splněn<br><br>➖ Bod dosud čeká na splnění<br>Tyto značky se pak v průběhu volebního období budou měnit v závislosti na tom, jak daná strana svůj program prosazuje.",
+		},
+		{
+			nadpis: "Jak jsou zpracovány programy stran?",
+			content: "Zaměřili jsme se na nejvýraznější politické subjekty, které v roce 2021 v předvolebních průzkumech dokázaly překročit 5% hranici pro vstup do sněmovny. U těchto politických uskupení jsme využili jejich nejdelší verzi programu a rozdělili ji do 16 kategorií. V každé kategorii jsme pak jednotlivé návrhy seskupili do několika témat. Každé téma pak obsahuje několik konkrétních návrhů, které chce daná strana či hnutí prosadit.<br>Obecně jsme se snažili co nejvíce respektovat logické členění programu jednotlivých stran. Konkrétní návrhy jsme se pak snažili vystihnout významově co nejblíže originálnímu znění a myšlence. Ideálně jsme dané návrhy přímo citovali. Naopak u shrnutí tématu jsme usilovali zejména o přehlednost pro čtenáře. Někdy tedy vycházíme z formulací programů, jindy však používáme slova vlastní.
+",
+		},
+		{
+			nadpis: "Jak se vyhodnocuje plnění programů?",
+			content: "Ten nejnáročnější úkol stojí teprve před námi. Je potřeba průběžně sledovat činnost politických uskupení a porovávat ji s jejich programem. V brzké době zveřejníme přesnou metodiku, jak na to půjdeme. Je samozřejmé, že v hodnocení nelze pohlížet stejně na strany vládní a strany opoziční. Nicméně i opozice má ve sněmovně jasně danou roli, a i její plnění by mělo odpovídat volebním programům",
+		},
+		{
+			nadpis: "Kdo za tím vším stojí?",
+			content: "<ul><li>Prokop Válek</li><li>Míša Pavlíček - webmaster, bůh programování</li><li>Daniel Rychlý - autor nápadu, šaman špatných nápadů</li><li>Zita Maršíková - tvůrce obsahu, patronka módní policie<li></li><li>pár dalších...</li></ul>",
+		},
+		{
+			nadpis: "A kontakt?",
+			content: "Mail: <a href='info@slibotechny.cz'>info@slibotechnycz</a><br>Instagram: <a href='https://www.instagram.com/slibotechny/'>@slibotechny</a>",
 		}
 	]
 	// KONEC PRO DANA #2
