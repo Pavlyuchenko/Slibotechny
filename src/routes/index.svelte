@@ -140,12 +140,11 @@ import IndexContentBp from "../components/IndexContentBP.svelte";
 		},
 		{
 			nadpis: "Jak jsou zpracovány programy stran?",
-			content: "Zaměřili jsme se na nejvýraznější politické subjekty, které v roce 2021 v předvolebních průzkumech dokázaly překročit 5% hranici pro vstup do sněmovny. U těchto politických uskupení jsme využili jejich nejdelší verzi programu a rozdělili ji do 16 kategorií. V každé kategorii jsme pak jednotlivé návrhy seskupili do několika témat. Každé téma pak obsahuje několik konkrétních návrhů, které chce daná strana či hnutí prosadit.<br>Obecně jsme se snažili co nejvíce respektovat logické členění programu jednotlivých stran. Konkrétní návrhy jsme se pak snažili vystihnout významově co nejblíže originálnímu znění a myšlence. Ideálně jsme dané návrhy přímo citovali. Naopak u shrnutí tématu jsme usilovali zejména o přehlednost pro čtenáře. Někdy tedy vycházíme z formulací programů, jindy však používáme slova vlastní.
-",
+			content: "Zaměřili jsme se na nejvýraznější politické subjekty, které v roce 2021 v předvolebních průzkumech dokázaly překročit 5% hranici pro vstup do sněmovny. U těchto politických uskupení jsme využili jejich nejdelší verzi programu a rozdělili ji do 16 kategorií. V každé kategorii jsme pak jednotlivé návrhy seskupili do několika témat. Každé téma pak obsahuje několik konkrétních návrhů, které chce daná strana či hnutí prosadit.<br>Obecně jsme se snažili co nejvíce respektovat logické členění programu jednotlivých stran. Konkrétní návrhy jsme se pak snažili vystihnout významově co nejblíže originálnímu znění a myšlence. Ideálně jsme dané návrhy přímo citovali. Naopak u shrnutí tématu jsme usilovali zejména o přehlednost pro čtenáře. Někdy tedy vycházíme z formulací programů, jindy však používáme slova vlastní.",
 		},
 		{
 			nadpis: "Jak se vyhodnocuje plnění programů?",
-			content: "Ten nejnáročnější úkol stojí teprve před námi. Je potřeba průběžně sledovat činnost politických uskupení a porovávat ji s jejich programem. V brzké době zveřejníme přesnou metodiku, jak na to půjdeme. Je samozřejmé, že v hodnocení nelze pohlížet stejně na strany vládní a strany opoziční. Nicméně i opozice má ve sněmovně jasně danou roli, a i její plnění by mělo odpovídat volebním programům",
+			content: "Ten nejnáročnější úkol stojí teprve před námi. Je potřeba průběžně sledovat činnost politických uskupení a porovávat ji s jejich programem. V brzké době zveřejníme přesnou metodiku, jak na to půjdeme. Je samozřejmé, že v hodnocení nelze pohlížet stejně na strany vládní a strany opoziční. Nicméně i opozice má ve sněmovně jasně danou roli, a i její plnění by mělo odpovídat volebním programům.",
 		},
 		{
 			nadpis: "Kdo za tím vším stojí?",
