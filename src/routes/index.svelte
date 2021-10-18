@@ -132,11 +132,11 @@ import IndexContentBp from "../components/IndexContentBP.svelte";
 		},
 		{
 			nadpis: "Proč je to důležité?",
-			content: "Celý web jsme stvořili s těmito zámery:<ol><li>Poskytnout občanům jednoduchý přehled politických programů se zaměřením na konkrétní podporované návrhy.</li><li>Umožnit lidem sledovat do jaké míry politická uskupení svůj předvolební program dodržují. Ostatně, prosazování jejich programů by měl být jeden z hlavních důvodů jejich volby.</li><li>Donutit volební strany a hnutí psát kvalitní, srozumitelné a konkrétní volební programy.</li><li>Připomínat politickým stranám a hnutím jejich volební program během celého jejich mandátu. Nechceme, aby programy vyšuměly týden po volbách.</li><li>A nakonec, chceme, aby politický program hrál při volbách opět podstatnou roli. V době, kdy o výsledku voleb rozhodují lajky na Facebooku je to opravdu třeba. Koneckonců, nastupujete-li do vlaku, taky budete rádi, když mašinfíra po pár kilometrech jízdy nezapomene, s cílem jaké stanice jste vlastně nastoupili do vlaku právě k němu.</li></ol>",
+			content: "Celý web jsme stvořili s těmito záměry:<ol><li>Poskytnout občanům jednoduchý přehled politických programů se zaměřením na konkrétní podporované návrhy.</li><li>Umožnit lidem sledovat do jaké míry politická uskupení svůj předvolební program dodržují. Ostatně, prosazování jejich programů by měl být jeden z hlavních důvodů jejich volby.</li><li>Donutit volební strany a hnutí psát kvalitní, srozumitelné a konkrétní volební programy.</li><li>Připomínat politickým stranám a hnutím jejich volební program během celého jejich mandátu. Nechceme, aby programy vyšuměly týden po volbách.</li><li>A nakonec chceme, aby politické programy hrály při volbách opět podstatnou roli. V době, kdy o výsledku voleb rozhodují lajky na Facebooku je to opravdu třeba. Koneckonců, nastupujete-li do vlaku, taky budete rádi, když mašinfíra po pár kilometrech jízdy nezapomene, s cílem jaké stanice jste vlastně nastoupili do vlaku právě k němu.</li></ol>",
 		},
 		{
 			nadpis: "Jak používat tento web?",
-			content: "V horním výberu klikněte na stranu, jež vás zajímá. Následně zvolte kategorii. Objeví se seznam témat z dané kategorie. Po kliknutí na libovolné téma se zobrazí stručné shrnutí postoje strany k danému tématu, konkrétní návrhy, které chce strana prosadit, přesnou citaci z programu a odkaz na originální verzi programu. U každého návrhu pak uvidíte jeho status, odpovídající tomuto klíči:<br><br>✅ Bod byl splněn<br>❌ Bod nebyl splněn<br>❔ Nelze přesvědčivě určit, zda byl bod splněn<br><br>➖ Bod dosud čeká na splnění<br>Tyto značky se pak v průběhu volebního období budou měnit v závislosti na tom, jak daná strana svůj program prosazuje.",
+			content: "V horním výberu klikněte na stranu, jež vás zajímá. Následně zvolte kategorii. Objeví se seznam témat z dané kategorie. Po kliknutí na libovolné téma se zobrazí stručné shrnutí postoje strany k danému tématu, konkrétní návrhy, které chce strana prosadit, přesnou citaci z programu a odkaz na originální verzi programu. U každého návrhu pak uvidíte jeho status, odpovídající tomuto klíči:<br><br>✅ Bod byl splněn<br>❌ Bod nebyl splněn<br>❔ Nelze přesvědčivě určit, zda byl bod splněn<br>➖ Bod dosud čeká na splnění<br><br>Tyto značky se pak v průběhu volebního období budou měnit v závislosti na tom, jak daná strana svůj program prosazuje.",
 		},
 		{
 			nadpis: "Jak jsou zpracovány programy stran?",
@@ -148,11 +148,11 @@ import IndexContentBp from "../components/IndexContentBP.svelte";
 		},
 		{
 			nadpis: "Kdo za tím vším stojí?",
-			content: "<ul><li>Prokop Válek</li><li>Míša Pavlíček - webmaster, bůh programování</li><li>Daniel Rychlý - autor nápadu, šaman špatných nápadů</li><li>Zita Maršíková - tvůrce obsahu, patronka módní policie<li></li><li>pár dalších...</li></ul>",
+			content: "<ul><li>Prokop Válek</li><li>Míša Pavlíček - webmaster, bůh programování</li><li>Daniel Rychlý - autor nápadu, šaman špatných nápadů</li><li>Zita Maršíková - tvůrce obsahu, patronka módní policie</li><li>Veronika Rodáková, Natálie Šebestová, Martna Kozlová, Jakub Neužil, Jan Hradil a další...</li></ul><br>Jistě však uvítáme další pomocnou ruku. Dejte nám vědět!",
 		},
 		{
 			nadpis: "A kontakt?",
-			content: "Mail: <a href='info@slibotechny.cz'>info@slibotechnycz</a><br>Instagram: <a href='https://www.instagram.com/slibotechny/'>@slibotechny</a>",
+			content: "Mail: <a href='mailto:info@slibotechny.cz'>info@slibotechnycz</a><br>Instagram: <a href='https://www.instagram.com/slibotechny/'>@slibotechny</a>",
 		}
 	]
 	// KONEC PRO DANA #2
