@@ -100,7 +100,7 @@
 	.bod-programu {
 		width: 100%;
 		min-height: 40px;
-		background-color: #ffffff;
+		background-color: #e6e6e6;
 		color: #000000;
 		box-sizing: border-box;
 
