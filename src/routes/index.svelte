@@ -270,11 +270,8 @@ import IndexContentBp from "../components/IndexContentBP.svelte";
 				</div> 
 			-->
 
-			<h2 id="main-title" style="text-align:center;">Vítejte na webu Slibotechny.cz!</h2>
+			<h2 id="main-title" style="text-align:center;">Dohlížíme na plnění politických programů!</h2>
 			<div id="main-text" style="margin:0 auto; width:100%">
-				<p>
-					Slibotechny jsou studentským projektem, který se snaží upozorňovat na plnění a neplnění politických programů a slibů, na které v programech politické strany lákají voliče. Konkrétně jsme se zaměřili na nejvýraznější politické subjekty, které v roce 2021 v předvolebních průzkumech dokázaly překročit 5 % hranici pro vstup do sněmovny. 
-				</p>
 			</div> 
 			<br>
 			{#each menu as point}
