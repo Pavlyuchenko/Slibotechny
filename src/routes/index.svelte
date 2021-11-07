@@ -148,7 +148,7 @@ import IndexContentBp from "../components/IndexContentBP.svelte";
 		},
 		{
 			nadpis: "Kdo za tím vším stojí?",
-			content: "<ul><li>Prokop Válek</li><li>Míša Pavlíček - webmaster, bůh programování</li><li>Daniel Rychlý - autor nápadu, šaman špatných nápadů</li><li>Zita Maršíková - tvůrce obsahu, patronka módní policie</li><li>Veronika Rodáková, Natálie Šebestová, Martna Kozlová, Jakub Neužil, Jan Hradil a další...</li></ul><br>Jistě však uvítáme další pomocnou ruku. Dejte nám vědět!",
+			content: "<ul><li>Prokop Válek - student Mendelova gymnázia Opava</li><li>Michal Pavlíček - student Mendelova gymnázia Opava, webmaster</li><li>Zita Maršíková - studentka Mendelova gymnázia Opava</li><li>Veronika Rodáková - studentka Mendelova gymnázia Opava</li><li>Natálie Šebestová - studentka Gymnázia Jaroslava Vrchlického v Klatovech</li><li>Martina Kozlová - studentka Fakulty informatiky a Fakulty filozofie Masarykovy univerzity</li><li>Jakub Neužil - student Fakulty sociálních studií Ostravské univerzity</li><li>Jan Hrazdil - student Fakulty potravinářské a biochemické technologie VŠCHT v Praze</li><li>Adam Klásek - student Ekonomicko-správní fakulty Masarykovy univerzity</li><li>Daniel Rychlý - informatik</li></ul><br>Jistě však uvítáme další pomocnou ruku. Dejte nám vědět!",
 		},
 		{
 			nadpis: "A kontakt?",
