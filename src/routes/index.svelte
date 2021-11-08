@@ -41,7 +41,7 @@
 	import Logo from "../components/Logo.svelte";
 	import BodProgramu from "../components/BodProgramu.svelte";
 	import { onMount } from "svelte";
-import IndexContentBp from "../components/IndexContentBP.svelte";
+	import IndexContentBp from "../components/IndexContentBP.svelte";
 
 	export let strany = [];
 	export let kategorie = [];
@@ -51,6 +51,8 @@ import IndexContentBp from "../components/IndexContentBP.svelte";
 	let chosenKategorie = null;
 
 	async function loadData (strana_id, kategorie_id) {
+		/* console.log(strany)
+		console.log(strana_id, kategorie_id) */
 		if (strany[strana_id].kategorie[kategorie_id].length > 0 || strany[strana_id].kategorie[kategorie_id] === false) return
 
 		let url;
@@ -89,6 +91,7 @@ import IndexContentBp from "../components/IndexContentBP.svelte";
 
 		json.bps.sort(compare);
 
+		console.log(strany)
 		strany[strana_id].kategorie[kategorie_id] = json.bps;
 	}
 
@@ -194,6 +197,22 @@ import IndexContentBp from "../components/IndexContentBP.svelte";
 				</div>
 			{/if}
 		{/each}
+		<!-- <div class="strana-clickable">
+			<select bind:value={chosenStrana} on:change={() => {
+				console.log(chosenStrana)
+				if ((chosenKategorie || chosenKategorie === 0) && chosenStrana >= 7) {
+					loadData(strany[chosenStrana].id, chosenKategorie)
+				}
+			}}>
+				{#each strany as strana, index}
+					{#if index >= 7}
+						<option value={index} on:click={() => {
+							console.log("hey")
+						}}>{strana.nazev}</option>
+					{/if}
+				{/each}
+			</select>
+		</div> -->
 	</div>
 	<div id="mobile-flex">
 		<select
@@ -287,8 +306,8 @@ import IndexContentBp from "../components/IndexContentBP.svelte";
 					<div 
 						class="get-back" 
 						on:click={() => {
-						chosenKategorie = null;
-					}}>← Výběr kategorií</div>
+							chosenKategorie = null;
+						}}>← Výběr kategorií</div>
 					<!-- <div on:click|self={() => {
 						showFilters = !showFilters
 					}}>
