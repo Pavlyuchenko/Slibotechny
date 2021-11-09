@@ -50,10 +50,14 @@
 
 	let chosenKategorie = null;
 
+	$: vybranaStrana = strany.find(str => str.id == chosenStrana)
+	$: vybraneBps = vybranaStrana?.kategorie[chosenKategorie]
+
 	async function loadData (strana_id, kategorie_id) {
 		/* console.log(strany)
 		console.log(strana_id, kategorie_id) */
-		if (strany[strana_id].kategorie[kategorie_id].length > 0 || strany[strana_id].kategorie[kategorie_id] === false) return
+		let str = strany.find(str => str.id == strana_id)
+		if (str?.kategorie[kategorie_id].length > 0 || str?.kategorie[kategorie_id] === false) return
 
 		let url;
 		if (kategorie_id !== 0){
@@ -73,7 +77,8 @@
 		);
 		const json = await res.json();
 		if (json.bps.length == 0) {
-			strany[strana_id].kategorie[kategorie_id] = false;
+			str.kategorie[kategorie_id] = false;
+			strany = strany
 			return
 		};
 		
@@ -91,8 +96,8 @@
 
 		json.bps.sort(compare);
 
-		console.log(strany)
-		strany[strana_id].kategorie[kategorie_id] = json.bps;
+		str.kategorie[kategorie_id] = json.bps;
+		strany = strany
 	}
 
 	var isPc = true;
@@ -183,13 +188,13 @@
 		{#each strany as strana, index}
 			{#if index < 7}
 				<div
-					class="strana-clickable {index === chosenStrana && 'active'}"
+					class="strana-clickable {strany[index].id === chosenStrana && 'active'}"
 					style="background-color: {strana.barva}; color: {strana.sekundarni_barva};"
 					on:click={() => {
-						chosenStrana = index;
+						chosenStrana = strana.id;
 						/* chosenKategorie = null; */
 						if (chosenKategorie || chosenKategorie === 0) {
-							loadData(strany[index].id, chosenKategorie)
+							loadData(chosenStrana, chosenKategorie)
 						}
 					}}
 				>
@@ -197,30 +202,36 @@
 				</div>
 			{/if}
 		{/each}
-		<!-- <div class="strana-clickable">
-			<select bind:value={chosenStrana} on:change={() => {
-				console.log(chosenStrana)
-				if ((chosenKategorie || chosenKategorie === 0) && chosenStrana >= 7) {
-					loadData(strany[chosenStrana].id, chosenKategorie)
-				}
-			}}>
+		<div class="strana-clickable">
+			<select 
+				bind:value={chosenStrana} 
+				on:change={() => {
+					if ((chosenKategorie || chosenKategorie === 0)) {
+						loadData(chosenStrana, chosenKategorie)
+					}
+				}} 
+				style="background-color: {strany.indexOf(vybranaStrana) >= 7 && vybranaStrana?.barva};
+					  color: {strany.indexOf(vybranaStrana) >= 7 && vybranaStrana?.sekundarni_barva};"
+			>
+				<option value="" disabled selected hidden>Další</option>
 				{#each strany as strana, index}
 					{#if index >= 7}
-						<option value={index} on:click={() => {
-							console.log("hey")
-						}}>{strana.nazev}</option>
+						<option value={strana.id}>{strana.nazev}</option>
 					{/if}
 				{/each}
 			</select>
-		</div> -->
+		</div>
 	</div>
 	<div id="mobile-flex">
 		<select
-			name=""
-			id=""
 			bind:value={chosenStrana}
-			style="background-color: {chosenStrana !== "" ? strany[chosenStrana]?.barva : "#fff"};
-			 	   color: {chosenStrana !== "" ? strany[chosenStrana]?.sekundarni_barva : "#2d2d2d"};
+			on:change={() => {
+				if (chosenKategorie || chosenKategorie === 0) {
+					loadData(chosenStrana, chosenKategorie)
+				}
+			}}
+			style="background-color: {chosenStrana !== "" ? strany.find(str => str.id == chosenStrana)?.barva : "#fff"};
+			 	   color: {chosenStrana !== "" ? strany.find(str => str.id == chosenStrana)?.sekundarni_barva : "#2d2d2d"};
 				   border: {chosenStrana !== "" ? "0" : "5px solid #2d2d2d"}
 				"
 		>	
@@ -229,7 +240,7 @@
 			{/if}
 			{#each strany as strana, index}
 				<option
-					value={index}
+					value={strany[index].id}
 					style="background-color: {strana.barva};
 							color: {strana.sekundarni_barva};"
 				>
@@ -241,8 +252,8 @@
 
 	<div
 		id="body-programu"
-		style="background-color: {chosenStrana !== "" ? strany[chosenStrana]?.barva : "#fff"}; 
-		color: {chosenStrana !== "" ? strany[chosenStrana]?.sekundarni_barva : "#2d2d2d"};
+		style="background-color: {chosenStrana !== "" ? strany.find(str => str.id == chosenStrana)?.barva : "#fff"}; 
+		color: {chosenStrana !== "" ? strany.find(str => str.id == chosenStrana)?.sekundarni_barva : "#2d2d2d"};
 		border: {chosenStrana !== "" ? "0" : "5px solid #2d2d2d"}
 		"
 	>
@@ -333,9 +344,9 @@
 					})[0].jmeno}
 				</h3>
 
-				{#if strany[strany[chosenStrana].id].kategorie[chosenKategorie]}
-					{#each strany[strany[chosenStrana].id]?.kategorie[chosenKategorie] as bp}
-						<BodProgramu {bp} barva={strany[chosenStrana].barva} />
+				{#if vybraneBps}
+					{#each vybraneBps as bp}
+						<BodProgramu {bp} barva={vybranaStrana.barva} />
 					{:else}
 						<div id="loading">
 							<div class="lds-ring"><div></div><div></div><div></div><div></div></div> Načítání...
@@ -343,7 +354,7 @@
 					{/each}
 				{:else}
 					<div id="loading">
-						V této kategorii nemá strana {strany[chosenStrana].nazev} žádné body programu.
+						V této kategorii nemá strana {vybranaStrana.nazev} žádné body programu.
 					</div>
 				{/if}
 			{:else}
@@ -362,11 +373,11 @@
 						style="background-color: grey; color: #fff;"
 						on:mouseenter={() => {
 							if (!isPc) return
-							loadData(strany[chosenStrana].id, 0);
+							loadData(strany.find(str => str.id == chosenStrana).id, 0);
 						}}
 						on:click={() => {
 							if (!isPc) {
-								loadData(strany[chosenStrana].id, 0);
+								loadData(strany.find(str => str.id == chosenStrana).id, 0);
 							}
 							chosenKategorie = 0
 						}} 
@@ -379,11 +390,11 @@
 							style="background-color: {kat.barva}; color: {kat.jmeno == "Energetika" || kat.jmeno == "Stát a vnitro" || kat.jmeno == "Ze" ? "#2D2D2D" : "#ffffff"}; {!kat.barva && "display: none;"}"
 							on:mouseenter={() => {
 								if (!isPc) return
-								loadData(strany[chosenStrana].id, kat.id);
+								loadData(strany.find(str => str.id == chosenStrana).id, kat.id);
 							}}
 							on:click={() => {
 								if (!isPc) {
-									loadData(strany[chosenStrana].id, kat.id);
+									loadData(strany.find(str => str.id == chosenStrana).id, kat.id);
 								}
 								chosenKategorie = kat.id
 							}} 
