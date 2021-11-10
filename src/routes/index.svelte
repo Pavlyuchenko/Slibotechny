@@ -164,6 +164,16 @@
 		}
 	]
 	// KONEC PRO DANA #2
+
+	let selectChosenStrana = 0;
+
+	function test() {
+		if (strany.indexOf(vybranaStrana) < 7) {
+			selectChosenStrana = 0
+		}
+	}
+
+	$: {chosenStrana; test();}
 </script>
 
 <Logo />
@@ -204,16 +214,18 @@
 		{/each}
 		<div class="strana-clickable">
 			<select 
-				bind:value={chosenStrana} 
+				bind:value={selectChosenStrana} 
 				on:change={() => {
 					if ((chosenKategorie || chosenKategorie === 0)) {
 						loadData(chosenStrana, chosenKategorie)
 					}
+					chosenStrana = selectChosenStrana
 				}} 
-				style="background-color: {strany.indexOf(vybranaStrana) >= 7 && vybranaStrana?.barva};
-					  color: {strany.indexOf(vybranaStrana) >= 7 && vybranaStrana?.sekundarni_barva};"
+				style="background-color: {strany.indexOf(vybranaStrana) >= 7 ? vybranaStrana?.barva : "#fff"};
+					  color: {strany.indexOf(vybranaStrana) >= 7 ? vybranaStrana?.sekundarni_barva : "#000"};
+					  margin:0; padding-right: 5px; transition: .2s;"
 			>
-				<option value="" disabled selected hidden>Další</option>
+				<option value={0} disabled selected hidden>Další</option>
 				{#each strany as strana, index}
 					{#if index >= 7}
 						<option value={strana.id}>{strana.nazev}</option>
