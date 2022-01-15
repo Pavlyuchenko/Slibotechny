@@ -11,7 +11,7 @@
 		);
 		const json = await res.json();
 		let kategorie = json.kategorie;
-		kategorie.push({jmeno: "Všechny", id: 0})
+		kategorie.push({ jmeno: "Všechny", id: 0 });
 		const res2 = await this.fetch(
 			"https://slibotechnyapi.pythonanywhere.com/get_strany",
 			{
@@ -26,11 +26,11 @@
 		strany["kategorie"] = [];
 
 		for (let strana of strany) {
-			strana.kategorie = {}
+			strana.kategorie = {};
 			for (let kat of kategorie) {
-				strana.kategorie[kat.id] = []
+				strana.kategorie[kat.id] = [];
 			}
-			strana.kategorie[0] = []
+			strana.kategorie[0] = [];
 		}
 
 		return { kategorie, strany };
@@ -50,60 +50,67 @@
 
 	let chosenKategorie = null;
 
-	$: vybranaStrana = strany.find(str => str.id == chosenStrana)
-	$: vybraneBps = vybranaStrana?.kategorie[chosenKategorie]
+	$: vybranaStrana = strany.find((str) => str.id == chosenStrana);
+	$: vybraneBps = vybranaStrana?.kategorie[chosenKategorie];
 
-	async function loadData (strana_id, kategorie_id) {
+	async function loadData(strana_id, kategorie_id) {
 		/* console.log(strany)
 		console.log(strana_id, kategorie_id) */
-		let str = strany.find(str => str.id == strana_id)
-		if (str?.kategorie[kategorie_id].length > 0 || str?.kategorie[kategorie_id] === false) return
+		let str = strany.find((str) => str.id == strana_id);
+		if (
+			str?.kategorie[kategorie_id].length > 0 ||
+			str?.kategorie[kategorie_id] === false
+		)
+			return;
 
 		let url;
-		if (kategorie_id !== 0){
-			url = "https://slibotechnyapi.pythonanywhere.com/get_some_bps/" + strana_id + "/" + kategorie_id
+		if (kategorie_id !== 0) {
+			url =
+				"https://slibotechnyapi.pythonanywhere.com/get_some_bps/" +
+				strana_id +
+				"/" +
+				kategorie_id;
 		} else {
-			url = "https://slibotechnyapi.pythonanywhere.com/get_some_bps/" + strana_id
+			url =
+				"https://slibotechnyapi.pythonanywhere.com/get_some_bps/" +
+				strana_id;
 		}
 
-		const res = await fetch(
-			url,
-			{
-				method: "GET",
-				headers: {
-					"content-type": "application/json",
-				},
-			}
-		);
+		const res = await fetch(url, {
+			method: "GET",
+			headers: {
+				"content-type": "application/json",
+			},
+		});
 		const json = await res.json();
 		if (json.bps.length == 0) {
 			str.kategorie[kategorie_id] = false;
-			strany = strany
-			return
-		};
-		
-		function compare( a, b ) {
-			let collator = new Intl.Collator('cs');
+			strany = strany;
+			return;
+		}
+
+		function compare(a, b) {
+			let collator = new Intl.Collator("cs");
 			let order = collator.compare(a.kategorie, b.kategorie);
 
 			if (order === 0) {
-				const order2 = collator.compare(a.nadpis, b.nadpis)
-				return order2
+				const order2 = collator.compare(a.nadpis, b.nadpis);
+				return order2;
 			} else {
-				return order
+				return order;
 			}
 		}
 
 		json.bps.sort(compare);
 
 		str.kategorie[kategorie_id] = json.bps;
-		strany = strany
+		strany = strany;
 	}
 
 	var isPc = true;
 	onMount(() => {
-		isPc = window.matchMedia("(hover: hover) and (pointer: fine)").matches
-	})
+		isPc = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+	});
 
 	/*	let showFilters = false;
 		let splneno1 = true;
@@ -131,49 +138,58 @@
 			})
 	} */
 
-
 	// PRO DANA #2
 	const menu = [
 		{
 			nadpis: "O co jde?",
-			content: "Slibotechny jsou studentským projektem, který se snaží upozorňovat na plnění a neplnění politických programů. Během voleb mapujeme volební programy politických stran a hnutí a hledáme v nich konkrétní návrhy. Celé následující období pak sledujeme a vyhodnocujeme zda a do jaké míry jsou návrhy prosazovány.",
+			content:
+				"Slibotechny jsou studentským projektem, který se snaží upozorňovat na plnění a neplnění politických programů. Během voleb mapujeme volební programy politických stran a hnutí a hledáme v nich konkrétní návrhy. Celé následující období pak sledujeme a vyhodnocujeme zda a do jaké míry jsou návrhy prosazovány.",
 		},
 		{
 			nadpis: "Proč je to důležité?",
-			content: "Celý web jsme stvořili s těmito záměry:<ol><li>Poskytnout občanům jednoduchý přehled politických programů se zaměřením na konkrétní podporované návrhy.</li><li>Umožnit lidem sledovat do jaké míry politická uskupení svůj předvolební program dodržují. Ostatně, prosazování jejich programů by měl být jeden z hlavních důvodů jejich volby.</li><li>Donutit volební strany a hnutí psát kvalitní, srozumitelné a konkrétní volební programy.</li><li>Připomínat politickým stranám a hnutím jejich volební program během celého jejich mandátu. Nechceme, aby programy vyšuměly týden po volbách.</li><li>A nakonec chceme, aby politické programy hrály při volbách opět podstatnou roli. V době, kdy o výsledku voleb rozhodují lajky na Facebooku je to opravdu třeba. Koneckonců, nastupujete-li do vlaku, taky budete rádi, když mašinfíra po pár kilometrech jízdy nezapomene, s cílem jaké stanice jste vlastně nastoupili do vlaku právě k němu.</li></ol>",
+			content:
+				"Celý web jsme stvořili s těmito záměry:<ol><li>Poskytnout občanům jednoduchý přehled politických programů se zaměřením na konkrétní podporované návrhy.</li><li>Umožnit lidem sledovat do jaké míry politická uskupení svůj předvolební program dodržují. Ostatně, prosazování jejich programů by měl být jeden z hlavních důvodů jejich volby.</li><li>Donutit volební strany a hnutí psát kvalitní, srozumitelné a konkrétní volební programy.</li><li>Připomínat politickým stranám a hnutím jejich volební program během celého jejich mandátu. Nechceme, aby programy vyšuměly týden po volbách.</li><li>A nakonec chceme, aby politické programy hrály při volbách opět podstatnou roli. V době, kdy o výsledku voleb rozhodují lajky na Facebooku je to opravdu třeba. Koneckonců, nastupujete-li do vlaku, taky budete rádi, když mašinfíra po pár kilometrech jízdy nezapomene, s cílem jaké stanice jste vlastně nastoupili do vlaku právě k němu.</li></ol>",
 		},
 		{
 			nadpis: "Jak používat tento web?",
-			content: "V horním výberu klikněte na stranu, jež vás zajímá. Následně zvolte kategorii. Objeví se seznam témat z dané kategorie. Po kliknutí na libovolné téma se zobrazí stručné shrnutí postoje strany k danému tématu, konkrétní návrhy, které chce strana prosadit, přesnou citaci z programu a odkaz na originální verzi programu. U každého návrhu pak uvidíte jeho status, odpovídající tomuto klíči:<br><br>✅ Bod byl splněn<br>❌ Bod nebyl splněn<br>❔ Nelze přesvědčivě určit, zda byl bod splněn<br>➖ Bod dosud čeká na splnění<br><br>Tyto značky se pak v průběhu volebního období budou měnit v závislosti na tom, jak daná strana svůj program prosazuje.",
+			content:
+				"V horním výberu klikněte na stranu, jež vás zajímá. Následně zvolte kategorii. Objeví se seznam témat z dané kategorie. Po kliknutí na libovolné téma se zobrazí stručné shrnutí postoje strany k danému tématu, konkrétní návrhy, které chce strana prosadit, přesnou citaci z programu a odkaz na originální verzi programu. U každého návrhu pak uvidíte jeho status, odpovídající tomuto klíči:<br><br>✅ Bod byl splněn<br>❌ Bod nebyl splněn<br>❔ Nelze přesvědčivě určit, zda byl bod splněn<br>➖ Bod dosud čeká na splnění<br><br>Tyto značky se pak v průběhu volebního období budou měnit v závislosti na tom, jak daná strana svůj program prosazuje.",
 		},
 		{
 			nadpis: "Jak jsou zpracovány programy stran?",
-			content: "Zaměřili jsme se na nejvýraznější politické subjekty, které v roce 2021 v předvolebních průzkumech dokázaly překročit 5% hranici pro vstup do sněmovny. U těchto politických uskupení jsme využili jejich nejdelší verzi programu a rozdělili ji do 16 kategorií. V každé kategorii jsme pak jednotlivé návrhy seskupili do několika témat. Každé téma pak obsahuje několik konkrétních návrhů, které chce daná strana či hnutí prosadit.<br>Obecně jsme se snažili co nejvíce respektovat logické členění programu jednotlivých stran. Konkrétní návrhy jsme se pak snažili vystihnout významově co nejblíže originálnímu znění a myšlence. Ideálně jsme dané návrhy přímo citovali. Naopak u shrnutí tématu jsme usilovali zejména o přehlednost pro čtenáře. Někdy tedy vycházíme z formulací programů, jindy však používáme slova vlastní.",
+			content:
+				"Zaměřili jsme se na nejvýraznější politické subjekty, které v roce 2021 v předvolebních průzkumech dokázaly překročit 5% hranici pro vstup do sněmovny. U těchto politických uskupení jsme využili jejich nejdelší verzi programu a rozdělili ji do 16 kategorií. V každé kategorii jsme pak jednotlivé návrhy seskupili do několika témat. Každé téma pak obsahuje několik konkrétních návrhů, které chce daná strana či hnutí prosadit.<br>Obecně jsme se snažili co nejvíce respektovat logické členění programu jednotlivých stran. Konkrétní návrhy jsme se pak snažili vystihnout významově co nejblíže originálnímu znění a myšlence. Ideálně jsme dané návrhy přímo citovali. Naopak u shrnutí tématu jsme usilovali zejména o přehlednost pro čtenáře. Někdy tedy vycházíme z formulací programů, jindy však používáme slova vlastní.",
 		},
 		{
 			nadpis: "Jak se vyhodnocuje plnění programů?",
-			content: "Ten nejnáročnější úkol stojí teprve před námi. Je potřeba průběžně sledovat činnost politických uskupení a porovávat ji s jejich programem. V brzké době zveřejníme přesnou metodiku, jak na to půjdeme. Je samozřejmé, že v hodnocení nelze pohlížet stejně na strany vládní a strany opoziční. Nicméně i opozice má ve sněmovně jasně danou roli, a i její plnění by mělo odpovídat volebním programům.",
+			content:
+				"Ten nejnáročnější úkol stojí teprve před námi. Je potřeba průběžně sledovat činnost politických uskupení a porovávat ji s jejich programem. V brzké době zveřejníme přesnou metodiku, jak na to půjdeme. Je samozřejmé, že v hodnocení nelze pohlížet stejně na strany vládní a strany opoziční. Nicméně i opozice má ve sněmovně jasně danou roli, a i její plnění by mělo odpovídat volebním programům.",
 		},
 		{
 			nadpis: "Kdo za tím vším stojí?",
-			content: "<ul><li>Prokop Válek - student Mendelova gymnázia Opava</li><li>Michal Pavlíček - student Mendelova gymnázia Opava, webmaster</li><li>Zita Maršíková - studentka Mendelova gymnázia Opava</li><li>Veronika Rodáková - studentka Mendelova gymnázia Opava</li><li>Natálie Šebestová - studentka Gymnázia Jaroslava Vrchlického v Klatovech</li><li>Martina Kozlová - studentka Fakulty informatiky a Fakulty filozofie Masarykovy univerzity</li><li>Jakub Neužil - student Fakulty sociálních studií Ostravské univerzity</li><li>Jan Hrazdil - student Fakulty potravinářské a biochemické technologie VŠCHT v Praze</li><li>Adam Klásek - student Ekonomicko-správní fakulty Masarykovy univerzity</li><li>Daniel Rychlý - informatik</li></ul><br>Jistě však uvítáme další pomocnou ruku. Dejte nám vědět!",
+			content:
+				"<ul><li>Prokop Válek - student Mendelova gymnázia Opava</li><li>Michal Pavlíček - student Mendelova gymnázia Opava, webmaster</li><li>Zita Maršíková - studentka Mendelova gymnázia Opava</li><li>Veronika Rodáková - studentka Mendelova gymnázia Opava</li><li>Natálie Šebestová - studentka Gymnázia Jaroslava Vrchlického v Klatovech</li><li>Martina Kozlová - studentka Fakulty informatiky a Fakulty filozofie Masarykovy univerzity</li><li>Jakub Neužil - student Fakulty sociálních studií Ostravské univerzity</li><li>Jan Hrazdil - student Fakulty potravinářské a biochemické technologie VŠCHT v Praze</li><li>Adam Klásek - student Ekonomicko-správní fakulty Masarykovy univerzity</li><li>Daniel Rychlý - informatik</li></ul><br>Jistě však uvítáme další pomocnou ruku. Dejte nám vědět!",
 		},
 		{
 			nadpis: "A kontakt?",
-			content: "Mail: <a href='mailto:info@slibotechny.cz'>info@slibotechnycz</a><br>Instagram: <a href='https://www.instagram.com/slibotechny/'>@slibotechny</a>",
-		}
-	]
+			content:
+				"Mail: <a href='mailto:info@slibotechny.cz'>info@slibotechnycz</a><br>Instagram: <a href='https://www.instagram.com/slibotechny/'>@slibotechny</a>",
+		},
+	];
 	// KONEC PRO DANA #2
 
 	let selectChosenStrana = 0;
 
 	function test() {
 		if (strany.indexOf(vybranaStrana) < 7) {
-			selectChosenStrana = 0
+			selectChosenStrana = 0;
 		}
 	}
 
-	$: {chosenStrana; test();}
+	$: {
+		chosenStrana;
+		test();
+	}
 </script>
 
 <Logo />
@@ -198,13 +214,14 @@
 		{#each strany as strana, index}
 			{#if index < 7}
 				<div
-					class="strana-clickable {strany[index].id === chosenStrana && 'active'}"
+					class="strana-clickable {strany[index].id ===
+						chosenStrana && 'active'}"
 					style="background-color: {strana.barva}; color: {strana.sekundarni_barva};"
 					on:click={() => {
 						chosenStrana = strana.id;
 						/* chosenKategorie = null; */
 						if (chosenKategorie || chosenKategorie === 0) {
-							loadData(chosenStrana, chosenKategorie)
+							loadData(chosenStrana, chosenKategorie);
 						}
 					}}
 				>
@@ -213,16 +230,20 @@
 			{/if}
 		{/each}
 		<div class="strana-clickable">
-			<select 
-				bind:value={selectChosenStrana} 
+			<select
+				bind:value={selectChosenStrana}
 				on:change={() => {
-					if ((chosenKategorie || chosenKategorie === 0)) {
-						loadData(chosenStrana, chosenKategorie)
+					if (chosenKategorie || chosenKategorie === 0) {
+						loadData(chosenStrana, chosenKategorie);
 					}
-					chosenStrana = selectChosenStrana
-				}} 
-				style="background-color: {strany.indexOf(vybranaStrana) >= 7 ? vybranaStrana?.barva : "#fff"};
-					  color: {strany.indexOf(vybranaStrana) >= 7 ? vybranaStrana?.sekundarni_barva : "#000"};
+					chosenStrana = selectChosenStrana;
+				}}
+				style="background-color: {strany.indexOf(vybranaStrana) >= 7
+					? vybranaStrana?.barva
+					: '#fff'};
+					  color: {strany.indexOf(vybranaStrana) >= 7
+					? vybranaStrana?.sekundarni_barva
+					: '#000'};
 					  margin:0; padding-right: 5px; transition: .2s;"
 			>
 				<option value={0} disabled selected hidden>Další</option>
@@ -239,14 +260,18 @@
 			bind:value={chosenStrana}
 			on:change={() => {
 				if (chosenKategorie || chosenKategorie === 0) {
-					loadData(chosenStrana, chosenKategorie)
+					loadData(chosenStrana, chosenKategorie);
 				}
 			}}
-			style="background-color: {chosenStrana !== "" ? strany.find(str => str.id == chosenStrana)?.barva : "#fff"};
-			 	   color: {chosenStrana !== "" ? strany.find(str => str.id == chosenStrana)?.sekundarni_barva : "#2d2d2d"};
-				   border: {chosenStrana !== "" ? "0" : "5px solid #2d2d2d"}
+			style="background-color: {chosenStrana !== ''
+				? strany.find((str) => str.id == chosenStrana)?.barva
+				: '#fff'};
+			 	   color: {chosenStrana !== ''
+				? strany.find((str) => str.id == chosenStrana)?.sekundarni_barva
+				: '#2d2d2d'};
+				   border: {chosenStrana !== '' ? '0' : '5px solid #2d2d2d'}
 				"
-		>	
+		>
 			{#if chosenStrana === ""}
 				<option value="" disabled selected>Vyberte stranu</option>
 			{/if}
@@ -264,15 +289,16 @@
 
 	<div
 		id="body-programu"
-		style="background-color: {chosenStrana !== "" ? strany.find(str => str.id == chosenStrana)?.barva : "#fff"}; 
-		color: {chosenStrana !== "" ? strany.find(str => str.id == chosenStrana)?.sekundarni_barva : "#2d2d2d"};
-		border: {chosenStrana !== "" ? "0" : "5px solid #2d2d2d"}
+		style="background-color: {chosenStrana !== ''
+			? strany.find((str) => str.id == chosenStrana)?.barva
+			: '#fff'}; 
+		color: {chosenStrana !== ''
+			? strany.find((str) => str.id == chosenStrana)?.sekundarni_barva
+			: '#2d2d2d'};
+		border: {chosenStrana !== '' ? '0' : '5px solid #2d2d2d'}
 		"
 	>
 		{#if chosenStrana === ""}
-
-
-
 			<!-- SAFE SPACE PRO DANA -->
 			<!-- Hledej "PRO DANA #2" -->
 			<!-- OLD CONTENT
@@ -312,26 +338,35 @@
 				</div> 
 			-->
 
-			<h2 id="main-title" style="text-align:center;">Dohlížíme na plnění politických programů!</h2>
-			<div id="main-text" style="margin:0 auto; width:100%">
-			</div> 
-			<br>
+			<h2 id="main-title" style="text-align:center;">
+				Dohlížíme na plnění politických programů!
+			</h2>
+			<div id="main-text" style="margin:0 auto; width:100%" />
+			<br />
 			{#each menu as point}
 				<IndexContentBp nadpis={point.nadpis} content={point.content} />
 			{/each}
-
+			<div
+				id="blog"
+				on:click={() => {
+					window.location.href = "/blog";
+				}}
+			>
+				Náš blog -&gt;
+			</div>
 
 			<!-- KONEC SAFE SPACE PRO DANA  -->
-
-		{:else}
-			{#if chosenKategorie !== null && chosenKategorie !== undefined}
-				<div class="flex">
-					<div 
-						class="get-back" 
-						on:click={() => {
-							chosenKategorie = null;
-						}}>← Výběr kategorií</div>
-					<!-- <div on:click|self={() => {
+		{:else if chosenKategorie !== null && chosenKategorie !== undefined}
+			<div class="flex">
+				<div
+					class="get-back"
+					on:click={() => {
+						chosenKategorie = null;
+					}}
+				>
+					← Výběr kategorií
+				</div>
+				<!-- <div on:click|self={() => {
 						showFilters = !showFilters
 					}}>
 						<img src="/Filtr.png" alt="Filtr" on:click|self={() => {
@@ -343,82 +378,111 @@
 							Zobrazit filtry a řazení
 						</span>
 					</div> -->
-					<div on:click={() => {
+				<div
+					on:click={() => {
 						chosenStrana = "";
-					}}>
-						<span>Na co se to vlastně dívám?</span>
-						<img src="/QuestionMark.png" alt="Otazník" />
-					</div>
+					}}
+				>
+					<span>Na co se to vlastně dívám?</span>
+					<img src="/QuestionMark.png" alt="Otazník" />
 				</div>
-				<h3>Body programu z kategorie 
-					{kategorie.filter(kat => {
-						return kat.id === chosenKategorie
-					})[0].jmeno}
-				</h3>
+			</div>
+			<h3>
+				Body programu z kategorie
+				{kategorie.filter((kat) => {
+					return kat.id === chosenKategorie;
+				})[0].jmeno}
+			</h3>
 
-				{#if vybraneBps}
-					{#each vybraneBps as bp}
-						<BodProgramu {bp} barva={vybranaStrana.barva} />
-					{:else}
-						<div id="loading">
-							<div class="lds-ring"><div></div><div></div><div></div><div></div></div> Načítání...
-						</div>
-					{/each}
+			{#if vybraneBps}
+				{#each vybraneBps as bp}
+					<BodProgramu {bp} barva={vybranaStrana.barva} />
 				{:else}
 					<div id="loading">
-						V této kategorii nemá strana {vybranaStrana.nazev} žádné body programu.
+						<div class="lds-ring">
+							<div />
+							<div />
+							<div />
+							<div />
+						</div>
+						Načítání...
 					</div>
-				{/if}
+				{/each}
 			{:else}
-				<div class="flex">
-					<h3 style="margin-top: 10px">Vyber kategorii</h3>
-					<div on:click={() => {
-						chosenStrana = "";
-					}}>
-						<span>Na co se to vlastně dívám?</span>
-						<img src="/QuestionMark.png" alt="Otazník" />
-					</div>
+				<div id="loading">
+					V této kategorii nemá strana {vybranaStrana.nazev} žádné body
+					programu.
 				</div>
-				<div id="kategorie">
-					<div 
-						class="kat" 
-						style="background-color: grey; color: #fff;"
+			{/if}
+		{:else}
+			<div class="flex">
+				<h3 style="margin-top: 10px">Vyber kategorii</h3>
+				<div
+					on:click={() => {
+						chosenStrana = "";
+					}}
+				>
+					<span>Na co se to vlastně dívám?</span>
+					<img src="/QuestionMark.png" alt="Otazník" />
+				</div>
+			</div>
+			<div id="kategorie">
+				<div
+					class="kat"
+					style="background-color: grey; color: #fff;"
+					on:mouseenter={() => {
+						if (!isPc) return;
+						loadData(
+							strany.find((str) => str.id == chosenStrana).id,
+							0
+						);
+					}}
+					on:click={() => {
+						if (!isPc) {
+							loadData(
+								strany.find((str) => str.id == chosenStrana).id,
+								0
+							);
+						}
+						chosenKategorie = 0;
+					}}
+				>
+					Všechny
+				</div>
+				{#each kategorie as kat}
+					<div
+						class="kat"
+						style="background-color: {kat.barva}; color: {kat.jmeno ==
+							'Energetika' ||
+						kat.jmeno == 'Stát a vnitro' ||
+						kat.jmeno == 'Ze'
+							? '#2D2D2D'
+							: '#ffffff'}; {!kat.barva && 'display: none;'}"
 						on:mouseenter={() => {
-							if (!isPc) return
-							loadData(strany.find(str => str.id == chosenStrana).id, 0);
+							if (!isPc) return;
+							loadData(
+								strany.find((str) => str.id == chosenStrana).id,
+								kat.id
+							);
 						}}
 						on:click={() => {
 							if (!isPc) {
-								loadData(strany.find(str => str.id == chosenStrana).id, 0);
+								loadData(
+									strany.find((str) => str.id == chosenStrana)
+										.id,
+									kat.id
+								);
 							}
-							chosenKategorie = 0
-						}} 
+							chosenKategorie = kat.id;
+						}}
 					>
-						Všechny
+						{kat.jmeno}
 					</div>
-					{#each kategorie as kat}
-						<div 
-							class="kat" 
-							style="background-color: {kat.barva}; color: {kat.jmeno == "Energetika" || kat.jmeno == "Stát a vnitro" || kat.jmeno == "Ze" ? "#2D2D2D" : "#ffffff"}; {!kat.barva && "display: none;"}"
-							on:mouseenter={() => {
-								if (!isPc) return
-								loadData(strany.find(str => str.id == chosenStrana).id, kat.id);
-							}}
-							on:click={() => {
-								if (!isPc) {
-									loadData(strany.find(str => str.id == chosenStrana).id, kat.id);
-								}
-								chosenKategorie = kat.id
-							}} 
-						>
-							{kat.jmeno}
-						</div>
-					{/each}
-					<div class="boiler"></div>
-					<div class="boiler"></div>
-					<div class="boiler"></div>
-				</div>
-			{/if}
+				{/each}
+				<div class="boiler" />
+				<div class="boiler" />
+				<div class="boiler" />
+			</div>
 		{/if}
 	</div>
 </section>
@@ -450,6 +514,24 @@
 		margin: 0;
 		margin-bottom: 5px;
 	} */
+	#blog:hover {
+		text-decoration: underline;
+	}
+	#blog {
+		font-size: 28px;
+		font-weight: bold;
+		background-color: #fff;
+		border: 4px solid #000;
+		border-radius: 5px;
+		padding: 5px 5px;
+		margin-left: 0;
+		margin-right: auto;
+		width: max-content;
+		margin-left: 100%;
+		transform: translateX(-100%);
+
+		cursor: pointer;
+	}
 
 	#main-title {
 		margin: 10px 0;
@@ -475,19 +557,19 @@
 		padding: 30px 0;
 		text-align: center;
 		margin-bottom: 20px;
-		
+
 		font-family: "Barlow";
 		font-weight: 500;
 		font-size: 26px;
-		
+
 		cursor: pointer;
-		transition: .15s;
+		transition: 0.15s;
 	}
 	.kat:hover {
 		filter: brightness(75%);
 	}
 
-	.boiler{
+	.boiler {
 		width: 23%;
 	}
 
@@ -580,7 +662,7 @@
 		font-weight: 500;
 	}
 
-	.get-back{
+	.get-back {
 		font-size: 18px;
 		font-weight: 500;
 		margin-bottom: 20px;
@@ -592,12 +674,12 @@
 		color: #000;
 
 		cursor: pointer;
-		transition: .15s;
+		transition: 0.15s;
 	}
-	.get-back:hover{
+	.get-back:hover {
 		filter: brightness(85%);
 	}
-	
+
 	#mobile-flex {
 		display: none;
 	}
@@ -617,13 +699,13 @@
 	}
 
 	select::-ms-expand {
-		display: none; 
+		display: none;
 	}
 
-	#loading{
+	#loading {
 		display: flex;
 		align-items: center;
-  		justify-content: center;
+		justify-content: center;
 
 		font-size: 22px;
 		font-weight: 500;
@@ -678,6 +760,13 @@
 			padding: 0 30px;
 		}
 	}
+	@media (max-width: 1200px) {
+		#blog {
+			top: auto;
+			bottom: 20px;
+			font-size: 20px;
+		}
+	}
 	@media (max-width: 1025px) {
 		.strana-clickable {
 			font-size: 22px;
@@ -721,7 +810,7 @@
 		.flex div {
 			margin-bottom: 20px;
 		}
-		
+
 		#mobile-flex {
 			display: block;
 		}

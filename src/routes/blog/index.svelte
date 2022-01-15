@@ -53,6 +53,15 @@
 			</div>
 		</article>
 	{/each}
+
+	<div
+		id="get-back"
+		on:click={() => {
+			window.location.href = "/";
+		}}
+	>
+		&lt;- Slibotechny.cz
+	</div>
 </section>
 
 <style>
@@ -144,6 +153,20 @@
 		padding: 0;
 	}
 
+	#get-back:hover {
+		text-decoration: underline;
+	}
+	#get-back {
+		position: fixed;
+		top: 20px;
+		left: 30px;
+
+		font-size: 22px;
+		font-weight: bold;
+
+		cursor: pointer;
+	}
+
 	@media (max-width: 1700px) {
 		article {
 			margin: 35px 30px;
@@ -161,6 +184,11 @@
 		}
 		.datum {
 			font-size: 20px;
+		}
+	}
+	@media (max-width: 1450px) {
+		#logo-h1 {
+			padding-top: 60px;
 		}
 	}
 	@media (max-width: 1400px) {
@@ -229,6 +257,10 @@
 		}
 		#logo-h1 {
 			font-size: 60px;
+		}
+
+		#get-back {
+			left: 10px;
 		}
 	}
 	@media (max-width: 500px) {
