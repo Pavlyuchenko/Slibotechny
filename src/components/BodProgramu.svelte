@@ -75,10 +75,7 @@
 				bp.otevrit = !bp.otevrit;
 			}}>{bp.nadpis}</span
 		>
-		<div
-			class="hidden-bp"
-			id="box{bp.id}"
-		>
+		<div class="hidden-bp" id="box{bp.id}">
 			<p class="kategorie-jmeno" style="color: {bp.kategorie_barva};">
 				{bp.kategorie}
 			</p>
@@ -107,6 +104,10 @@
 				<i class="citace">{@html bp.citace}</i>
 			{/if}
 			<br />
+			{#if bp.komentar}
+				<h4 style="color: {barva};">Vysvětlení našeho hodnocení</h4>
+				<p class="citace">{@html bp.komentar}</p>
+			{/if}
 			{#if bp.odkaz}
 				<a
 					href={bp.odkaz}
@@ -228,7 +229,7 @@
 		font-weight: 500;
 	}
 	.splneno:hover:after {
-		display: block
+		display: block;
 	}
 	.spl1:after {
 		content: "Strana tento bod v plném rozsahu splňuje";
