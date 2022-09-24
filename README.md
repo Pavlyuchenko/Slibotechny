@@ -1,6 +1,7 @@
 # [Slibotechny](https://www.slibotechny.cz/)
 
 ![Showcase](https://ik.imagekit.io/velkadomu/slibotechny_preview_hGw_PU9jE.png?ik-sdk-version=javascript-1.4.3&updatedAt=1649504369880)
+### [**Article**](https://michal-pavlicek.tech/project/slibotechny) about this project on my portfolio.
 
 **Slibotechny is the watchdog political parties' promises they made before elections.**
 
